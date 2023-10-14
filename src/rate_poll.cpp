@@ -46,7 +46,7 @@ namespace pcat
             {
                 cpu_load = m_cpu.poll();
             }
-            catch (cpu::io_err)
+            catch (cpu::io_err&)
             {
                 std::lock_guard guard(m_io_err_mut);
                 m_io_err = true;
@@ -81,7 +81,7 @@ namespace pcat
 
     bool rate_poll::fmt_err() noexcept
     {
-        std::lock_guard(m_fmt_err_mut);
+        std::lock_guard guard(m_fmt_err_mut);
         return m_fmt_err;
     }
 
