@@ -3,21 +3,31 @@
 #include <thread>
 #include <chrono>
 
+#include "args.h"
 #include "conf.h"
 #include "framer.h"
 #include "rate_poll.h"
 
-const std::string STAT_FILE_PATH_DEFAULT = "/proc/stat";
-const std::string CONF_FILE_PATH_DEFAULT = "polycat-config.json";
-
 std::chrono::milliseconds get_period(uint64_t low_rate, uint64_t high_rate,
     float cpu_load);
 
-int main()
+int main(int argc, char** argv)
 {
     std::setlocale(LC_ALL, "");
 
-    pcat::conf conf(CONF_FILE_PATH_DEFAULT);
+    pcat::args args(argc, argv);
+
+    try
+    {
+        args.parse();
+    }
+    catch (pcat::args::parse_err& e)
+    {
+        std::cout << "Arguments error" << std::endl << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    pcat::conf conf(args.conf_path());
 
     try
     {
@@ -25,13 +35,13 @@ int main()
     }
     catch (std::exception& e)
     {
-        std::cout << "Config error, file " << CONF_FILE_PATH_DEFAULT
+        std::cout << "Config error, file " << args.conf_path()
             << std::endl << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 
     pcat::framer framer(conf.frames());
-    pcat::rate_poll rate_poll(conf.poll_period(), STAT_FILE_PATH_DEFAULT);
+    pcat::rate_poll rate_poll(conf.poll_period(), args.stat_path());
 
     uint64_t low_rate = conf.low_rate();
     uint64_t high_rate = conf.high_rate();
@@ -47,7 +57,7 @@ int main()
 
         if (rate_poll.io_err())
         {
-            std::cout << "CPU polling IO error, file " << STAT_FILE_PATH_DEFAULT
+            std::cout << "CPU polling IO error, file " << args.stat_path()
                 << std::endl << rate_poll.io_err_what() << std::endl;
             err = true;
             break;
@@ -55,8 +65,8 @@ int main()
 
         if (rate_poll.fmt_err())
         {
-            std::cout << "CPU polling format error, file "
-                << STAT_FILE_PATH_DEFAULT << std::endl
+            std::cout << "CPU polling format error, file " << args.stat_path()
+                << std::endl
                 << rate_poll.fmt_err_what() << std::endl;
             err = true;
             break;
