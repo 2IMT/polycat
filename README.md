@@ -6,7 +6,7 @@ runcat module for polybar (or waybar)
 ```console
 foo@bar:~$ git clone https://github.com/2IMT/polycat.git
 foo@bar:~$ cd polycat/res
-foo@bar:~$ cp runcat.ttf ~/.local/share/fonts/runcat.ttf
+foo@bar:res$ cp runcat.ttf ~/.local/share/fonts/runcat.ttf
 ```
 - Place the executable in **~/.config/polybar/modules** directory (or any other)
 - Add the module to your polybar config:
