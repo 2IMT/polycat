@@ -39,10 +39,22 @@ namespace pcat
         bool io_err() noexcept;
 
         /**
+         * @brief Tells IO error message, if happened
+         * @return message string, if error happened, empty string - otherwise
+        */
+        std::string io_err_what() noexcept;
+
+        /**
          * @brief Tells if stat file was malformed during CPU polling
          * @return true - on error, false - otherwise
         */
         bool fmt_err() noexcept;
+
+        /**
+         * @brief Tells format error message, if happened
+         * @return message string, if error happened, empty string - otherwise
+        */
+        std::string fmt_err_what() noexcept;
 
         /**
          * @brief Tells the current CPU load
@@ -55,7 +67,9 @@ namespace pcat
         std::chrono::milliseconds m_period;
         bool m_done;
         bool m_io_err;
+        std::string m_io_err_what;
         bool m_fmt_err;
+        std::string m_fmt_err_what;
         float m_cpu_load;
         std::mutex m_done_mut;
         std::mutex m_io_err_mut;

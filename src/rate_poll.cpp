@@ -41,16 +41,18 @@ namespace pcat
             {
                 cpu_load = m_cpu.poll();
             }
-            catch (cpu::io_err&)
+            catch (cpu::io_err& e)
             {
                 std::lock_guard guard(m_io_err_mut);
                 m_io_err = true;
+                m_io_err_what = e.what();
                 break;
             }
-            catch (cpu::fmt_err&)
+            catch (cpu::fmt_err& e)
             {
                 std::lock_guard guard(m_fmt_err_mut);
                 m_fmt_err = true;
+                m_fmt_err_what = e.what();
                 break;
             }
 
@@ -74,10 +76,22 @@ namespace pcat
         return m_io_err;
     }
 
+    std::string rate_poll::io_err_what() noexcept
+    {
+        std::lock_guard guard(m_io_err_mut);
+        return m_io_err_what;
+    }
+
     bool rate_poll::fmt_err() noexcept
     {
         std::lock_guard guard(m_fmt_err_mut);
         return m_fmt_err;
+    }
+
+    std::string rate_poll::fmt_err_what() noexcept
+    {
+        std::lock_guard guard(m_fmt_err_mut);
+        return m_fmt_err_what;
     }
 
     float rate_poll::poll() noexcept
