@@ -4,7 +4,6 @@
 #include <locale>
 #include <codecvt>
 #include <cstdint>
-#include <iostream>
 
 namespace pcat
 {
@@ -19,9 +18,9 @@ namespace pcat
         framer(const std::string& frames) noexcept;
 
         /**
-         * @brief Puts current frame in stdout and switches to next frame
+         * @brief Tells the current frame and switches to next
         */
-        void put() noexcept;
+        std::string get() noexcept;
 
     private:
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> m_cvt;

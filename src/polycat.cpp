@@ -75,7 +75,7 @@ int main(int argc, char** argv)
         float load = rate_poll.poll();
         point += get_period(low_rate, high_rate, load);
 
-        framer.put();
+        std::cout << framer.get() << std::endl;
 
         std::this_thread::sleep_until(point);
     }

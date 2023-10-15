@@ -1,5 +1,7 @@
 #include "framer.h"
 
+#include <sstream>
+
 namespace pcat
 {
 
@@ -10,11 +12,14 @@ namespace pcat
     {
     }
 
-    void framer::put() noexcept
+    std::string framer::get() noexcept
     {
-        std::cout << m_cvt.to_bytes(m_frames.at(m_curr)) << std::endl;
+        std::stringstream frame;
+        frame << m_cvt.to_bytes(m_frames.at(m_curr));
 
         m_curr = (m_curr + 1) % m_count;
+
+        return frame.str();
     }
 
 }
