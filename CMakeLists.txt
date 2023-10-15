@@ -12,7 +12,11 @@ set(SOURCES
 
 add_executable(polycat ${SOURCES})
 target_include_directories(polycat PRIVATE src/include)
-target_compile_options(polycat PRIVATE -Wall -Wpedantic -Werror)
+target_compile_options(polycat PRIVATE 
+    -Wall 
+    -Wpedantic 
+    -Werror 
+    -Wno-sign-compare)
 set_property(TARGET polycat PROPERTY CXX_STANDARD 20)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
