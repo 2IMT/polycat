@@ -11,9 +11,11 @@ std::chrono::milliseconds get_period(uint64_t low_rate, uint64_t high_rate,
 
 int main()
 {
-    pcat::framer framer(U"");
-    pcat::rate_poll rate_poll(300, "/proc/stat");
+    std::setlocale(LC_ALL, "");
 
+    pcat::framer framer("");
+    pcat::rate_poll rate_poll(300, "/proc/stat");
+    
     uint64_t low_rate = 3;
     uint64_t high_rate = 90;
 
