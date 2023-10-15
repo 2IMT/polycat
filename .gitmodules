@@ -2,3 +2,7 @@
 	path = dep/nlohmann-json
 	url = https://github.com/nlohmann/json.git
 	branch = v3.11.2
+[submodule "dep/argparse"]
+	path = dep/argparse
+	url = https://github.com/p-ranav/argparse.git
+	branch = v2.9
