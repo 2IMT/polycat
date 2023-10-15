@@ -3,6 +3,7 @@
 #include <atomic>
 #include <chrono>
 #include <string>
+#include <chrono>
 
 #include "cpu.h"
 
@@ -51,7 +52,7 @@ namespace pcat
 
     private:
         cpu m_cpu;
-        uint64_t m_period;
+        std::chrono::milliseconds m_period;
         bool m_done;
         bool m_io_err;
         bool m_fmt_err;

@@ -22,10 +22,6 @@ namespace pcat
     {
         using namespace std::chrono;
 
-        auto period = milliseconds(m_period);
-
-        auto next = steady_clock::now();
-        auto prev = next - period;
         while (true)
         {
             m_done_mut.lock();
@@ -36,9 +32,8 @@ namespace pcat
             }
             m_done_mut.unlock();
 
-            auto now = steady_clock::now();
-            prev = now;
-            next += period;
+            auto point = steady_clock::now();
+            point += m_period;
 
             float cpu_load = 0.0f;
 
@@ -63,7 +58,7 @@ namespace pcat
             m_cpu_load = cpu_load;
             m_cpu_load_mut.unlock();
 
-            std::this_thread::sleep_until(next);
+            std::this_thread::sleep_until(point);
         }
     }
 
