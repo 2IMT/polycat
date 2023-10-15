@@ -40,7 +40,7 @@ int main()
 
         if (rate_poll.fmt_err())
         {
-            std::cout << "CPU polling format error, file"
+            std::cout << "CPU polling format error, file "
                 << STAT_FILE_PATH_DEFAULT << std::endl
                 << rate_poll.fmt_err_what() << std::endl;
             err = true;
