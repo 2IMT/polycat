@@ -1,7 +1,15 @@
-# polycat
+# polycat <a id="polycat"></a>
 runcat module for polybar (or waybar)
 
-## Usage
+## Table of Contents <a id="table-of-contents"></a>
+1. [Polycat](#polycat)
+2. [Table of Contents](#table-of-contents)
+3. [Usage](#usage)
+4. [Features](#features)
+    1. [Configuration](#features-configuration)
+    2. [Command-line arguments](#features-arguments)
+
+## Usage <a id="usage"></a>
 - Install the font
 ```console
 foo@bar:~$ git clone https://github.com/2IMT/polycat.git
@@ -28,8 +36,8 @@ Here you go
 
 ![polycat demo animation](res/polycat-demo.gif)
 
-## Features
-### Configuration
+## Features <a id="features"></a>
+### Configuration <a id="features-configuration"></a>
 Polycat is configured with json file usually placed in the working directory of polycat (can be configured using command-line arguments)
 
 #### Example
@@ -47,7 +55,7 @@ Polycat is configured with json file usually placed in the working directory of 
 - **highRate** sets the FPS maximum
 - **pollingPeriod** sets the period of polling the CPU (stat file)
 
-### Command-line arguments
+### Command-line arguments <a id="features-arguments"></a>
 By default, polycat uses /proc/stat file for CPU polling and polycat-config.json located in the working directory as a configuration file
 Command-line arguments allow you to set the location of configuration file as well as the location of stat file
 - **-c** or **--config-path** sets the path for configuration file
