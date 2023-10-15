@@ -3,10 +3,12 @@
 #include <thread>
 #include <chrono>
 
+#include "conf.h"
 #include "framer.h"
 #include "rate_poll.h"
 
 const std::string STAT_FILE_PATH_DEFAULT = "/proc/stat";
+const std::string CONF_FILE_PATH_DEFAULT = "polycat-config.json";
 
 std::chrono::milliseconds get_period(uint64_t low_rate, uint64_t high_rate,
     float cpu_load);
@@ -15,11 +17,24 @@ int main()
 {
     std::setlocale(LC_ALL, "");
 
-    pcat::framer framer("");
-    pcat::rate_poll rate_poll(300, STAT_FILE_PATH_DEFAULT);
+    pcat::conf conf(CONF_FILE_PATH_DEFAULT);
 
-    uint64_t low_rate = 3;
-    uint64_t high_rate = 90;
+    try
+    {
+        conf.load();
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "Config error, file " << CONF_FILE_PATH_DEFAULT
+            << std::endl << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    pcat::framer framer(conf.frames());
+    pcat::rate_poll rate_poll(conf.poll_period(), STAT_FILE_PATH_DEFAULT);
+
+    uint64_t low_rate = conf.low_rate();
+    uint64_t high_rate = conf.high_rate();
 
     std::thread poll_thread([](pcat::rate_poll& rate_poll) { rate_poll.run(); },
         std::ref(rate_poll));
