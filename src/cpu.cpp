@@ -3,22 +3,6 @@
 #include <sstream>
 #include <numeric>
 
-void throw_fmt_err(const std::string& stat_path)
-{
-    std::stringstream message;
-    message << "Stat file \"" << stat_path
-        << "\" has incorrect format.";
-    throw pcat::cpu::fmt_err(message.str());
-}
-
-void throw_io_err(const std::string& stat_path)
-{
-    std::stringstream message;
-    message << "An error occurred while reading file \"" << stat_path
-        << "\".";
-    throw pcat::cpu::io_err(message.str());
-}
-
 namespace pcat
 {
 
@@ -72,9 +56,7 @@ namespace pcat
         }
         catch (std::ios::failure&)
         {
-            std::stringstream message;
-            message << "Failed to open \"" << m_stat_path << "\".";
-            throw io_err(message.str());
+            throw io_err("Failed to open the stat file.");
         }
 
         std::string line;
@@ -85,7 +67,7 @@ namespace pcat
         }
         catch (std::ios::failure&)
         {
-            throw_io_err(m_stat_path);
+            throw io_err("Failed to read the stat file.");
         }
 
         std::stringstream line_stream;
@@ -98,12 +80,12 @@ namespace pcat
 
             if (cpu_token != std::string("cpu"))
             {
-                throw_fmt_err(m_stat_path);
+                throw fmt_err("Stat has invalid format.");
             }
         }
         else
         {
-            throw_fmt_err(m_stat_path);
+            throw fmt_err("Stat file is empty.");
         }
 
         std::vector<uint64_t> jiffies;
@@ -120,13 +102,13 @@ namespace pcat
             }
             catch (...)
             {
-                throw_fmt_err(m_stat_path);
+                throw fmt_err("Stat file has invalid data.");
             }
         }
 
         if (jiffies.size() < 4)
         {
-            throw_fmt_err(m_stat_path);
+            throw fmt_err("Not enough data in stat file.");
         }
 
         state result = { 0 };
