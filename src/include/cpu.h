@@ -11,13 +11,13 @@ namespace pcat
 
     /**
      * @brief Polls CPU usage
-    */
+     */
     class cpu
     {
     public:
         /**
          * @brief Thrown on IO errors
-        */
+         */
         class io_err : std::exception
         {
         public:
@@ -31,7 +31,7 @@ namespace pcat
 
         /**
          * @brief Thrown on stat file format errors
-        */
+         */
         class fmt_err : std::exception
         {
         public:
@@ -46,7 +46,7 @@ namespace pcat
         /**
          * @brief Constructs an instance that polls specific stat file
          * @param stat_path Stat file path
-        */
+         */
         cpu(const std::string& stat_path) noexcept;
 
         /**
@@ -54,13 +54,13 @@ namespace pcat
          * @return CPU usage in range [0-1]
          * @exception pcat::cpu::io_err
          * @exception pcat::cpu::fmt_err
-        */
+         */
         float poll();
 
     private:
         /**
          * @brief CPU state
-        */
+         */
         struct state
         {
             uint64_t total;
@@ -75,7 +75,7 @@ namespace pcat
          * @return CPU state structure
          * @exception pcat::cpu::io_err
          * @exception pcat::cpu::fmt_err
-        */
+         */
         state get_state();
     };
 

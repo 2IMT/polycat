@@ -78,14 +78,8 @@ namespace pcat
         m_conf_path = program.get(CONF_PATH_ARG_LONG);
     }
 
-    std::string args::stat_path() const noexcept
-    {
-        return m_stat_path;
-    }
+    std::string args::stat_path() const noexcept { return m_stat_path; }
 
-    std::string args::conf_path() const noexcept
-    {
-        return m_conf_path;
-    }
+    std::string args::conf_path() const noexcept { return m_conf_path; }
 
 }

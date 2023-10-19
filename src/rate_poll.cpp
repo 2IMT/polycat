@@ -7,8 +7,8 @@
 namespace pcat
 {
 
-    rate_poll::rate_poll(uint64_t period,
-        const std::string& stat_path) noexcept :
+    rate_poll::rate_poll(uint64_t period, const std::string& stat_path) noexcept
+        :
         m_cpu(stat_path),
         m_period(period),
         m_done(false),

@@ -8,7 +8,7 @@ namespace pcat
 
     /**
      * @brief Command line arguments parser
-    */
+     */
     class args
     {
     public:
@@ -38,7 +38,7 @@ namespace pcat
 
         /**
          * Thrown on parsing errors
-        */
+         */
         class parse_err : public std::exception
         {
         public:
@@ -54,25 +54,25 @@ namespace pcat
          * @brief Constructs an instance of parser
          * @param argc Argument count including exec name (argv[0])
          * @param argv Arguments including exec name (argv[0])
-        */
+         */
         args(int argc, char** argv) noexcept;
 
         /**
          * @brief Parses given arguments and sets corresponding values
          * @exception pcat::args::parse_err
-        */
+         */
         void parse();
 
         /**
          * @brief Tells stat file location
          * @return Stat file path
-        */
+         */
         std::string stat_path() const noexcept;
 
         /**
          * @brief Tells config file location
          * @return Config file path
-        */
+         */
         std::string conf_path() const noexcept;
 
     private:

@@ -8,8 +8,8 @@
 #include "framer.h"
 #include "rate_poll.h"
 
-std::chrono::milliseconds get_period(uint64_t low_rate, uint64_t high_rate,
-    float cpu_load);
+std::chrono::milliseconds get_period(
+    uint64_t low_rate, uint64_t high_rate, float cpu_load);
 
 int main(int argc, char** argv)
 {
@@ -35,8 +35,8 @@ int main(int argc, char** argv)
     }
     catch (std::exception& e)
     {
-        std::cout << "Config error, file " << args.conf_path()
-            << std::endl << e.what() << std::endl;
+        std::cout << "Config error, file " << args.conf_path() << std::endl
+                  << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -58,7 +58,8 @@ int main(int argc, char** argv)
         if (rate_poll.io_err())
         {
             std::cout << "CPU polling IO error, file " << args.stat_path()
-                << std::endl << rate_poll.io_err_what() << std::endl;
+                      << std::endl
+                      << rate_poll.io_err_what() << std::endl;
             err = true;
             break;
         }
@@ -66,8 +67,8 @@ int main(int argc, char** argv)
         if (rate_poll.fmt_err())
         {
             std::cout << "CPU polling format error, file " << args.stat_path()
-                << std::endl
-                << rate_poll.fmt_err_what() << std::endl;
+                      << std::endl
+                      << rate_poll.fmt_err_what() << std::endl;
             err = true;
             break;
         }
@@ -85,8 +86,8 @@ int main(int argc, char** argv)
     return err ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-std::chrono::milliseconds get_period(uint64_t low_rate, uint64_t high_rate,
-    float cpu_load)
+std::chrono::milliseconds get_period(
+    uint64_t low_rate, uint64_t high_rate, float cpu_load)
 {
     uint64_t diff = high_rate - low_rate;
 

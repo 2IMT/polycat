@@ -12,54 +12,53 @@ namespace pcat
 
     /**
      * @brief Poll CPU load at a constant rate
-    */
+     */
     class rate_poll
     {
     public:
         /**
          * @param period Period of polling
-        */
-        rate_poll(uint64_t period,
-            const std::string& stat_path) noexcept;
+         */
+        rate_poll(uint64_t period, const std::string& stat_path) noexcept;
 
         /**
          * @brief CPU polling routine (should be run in separate thread)
-        */
+         */
         void run() noexcept;
 
         /**
          * @brief Stops polling the CPU
-        */
+         */
         void stop() noexcept;
 
         /**
          * @brief Tells if an IO error has happened during CPU polling
          * @return true - on error, false - otherwise
-        */
+         */
         bool io_err() noexcept;
 
         /**
          * @brief Tells IO error message, if happened
          * @return message string, if error happened, empty string - otherwise
-        */
+         */
         std::string io_err_what() noexcept;
 
         /**
          * @brief Tells if stat file was malformed during CPU polling
          * @return true - on error, false - otherwise
-        */
+         */
         bool fmt_err() noexcept;
 
         /**
          * @brief Tells format error message, if happened
          * @return message string, if error happened, empty string - otherwise
-        */
+         */
         std::string fmt_err_what() noexcept;
 
         /**
          * @brief Tells the current CPU load
          * @return Value in range [0-1]
-        */
+         */
         float poll() noexcept;
 
     private:

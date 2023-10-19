@@ -14,12 +14,12 @@ namespace pcat
         /**
          * @brief Construct an instance with specified frames
          * @param frames String of frames
-        */
+         */
         framer(const std::string& frames) noexcept;
 
         /**
          * @brief Tells the current frame and switches to next
-        */
+         */
         std::string get() noexcept;
 
     private:

@@ -11,10 +11,7 @@ namespace pcat
     {
     }
 
-    const char* cpu::io_err::what() const noexcept
-    {
-        return m_message.c_str();
-    }
+    const char* cpu::io_err::what() const noexcept { return m_message.c_str(); }
 
     cpu::fmt_err::fmt_err(const std::string& message) noexcept :
         m_message(message)

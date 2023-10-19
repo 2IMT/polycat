@@ -161,31 +161,40 @@ namespace pcat
         if (frames.length() < 1)
         {
             message << "Key \"" << FRAMES_KEY
-                << "\" cannot be an empty string.";
+                    << "\" cannot be an empty string.";
             err = true;
         }
 
         if (low_rate < 1 || low_rate > std::numeric_limits<uint8_t>().max())
         {
-            if (err) { message << "\n"; }
+            if (err)
+            {
+                message << "\n";
+            }
             message << "Key \"" << LOW_RATE_KEY
-                << "\" should be a number in range [1-255] inclusive.";
+                    << "\" should be a number in range [1-255] inclusive.";
             err = true;
         }
 
         if (high_rate < 1 || high_rate > std::numeric_limits<uint8_t>().max())
         {
-            if (err) { message << "\n"; }
+            if (err)
+            {
+                message << "\n";
+            }
             message << "Key \"" << HIGH_RATE_KEY
-                << "\" should be a number in range [1-255] inclusive.";
+                    << "\" should be a number in range [1-255] inclusive.";
             err = true;
         }
 
         if (poll_period < 1)
         {
-            if (err) { message << "\n"; }
+            if (err)
+            {
+                message << "\n";
+            }
             message << "Key \"" << POLL_PERIOD_KEY
-                << "\" should be a number greater than 1.";
+                    << "\" should be a number greater than 1.";
         }
 
         if (err)
@@ -199,24 +208,12 @@ namespace pcat
         m_poll_period = poll_period;
     }
 
-    std::string conf::frames() const noexcept
-    {
-        return m_frames;
-    }
+    std::string conf::frames() const noexcept { return m_frames; }
 
-    uint8_t conf::high_rate() const noexcept
-    {
-        return m_high_rate;
-    }
+    uint8_t conf::high_rate() const noexcept { return m_high_rate; }
 
-    uint8_t conf::low_rate() const noexcept
-    {
-        return m_low_rate;
-    }
+    uint8_t conf::low_rate() const noexcept { return m_low_rate; }
 
-    uint64_t conf::poll_period() const noexcept
-    {
-        return m_poll_period;
-    }
+    uint64_t conf::poll_period() const noexcept { return m_poll_period; }
 
 }
