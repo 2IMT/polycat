@@ -7,6 +7,7 @@ set(SOURCES
     src/conf.cpp
     src/framer.cpp
     src/polycat.cpp
+    src/smoother.cpp
     src/rate_poll.cpp
 )
 
