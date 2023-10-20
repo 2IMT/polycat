@@ -9,17 +9,17 @@
 namespace pcat
 {
 
-const std::string conf::FRAMES_DEFAULT = "";
+const std::string conf::FRAMES_DEFAULT = "";
 
-const uint8_t conf::LOW_RATE_DEFAULT = 3;
+const uint8_t conf::LOW_RATE_DEFAULT = 2;
 
-const uint8_t conf::HIGH_RATE_DEFAULT = 90;
+const uint8_t conf::HIGH_RATE_DEFAULT = 30;
 
-const uint64_t conf::POLL_PERIOD_DEFAULT = 500;
+const uint64_t conf::POLL_PERIOD_DEFAULT = 1000;
 
 const bool conf::SMOOTHING_ENABLED_DEFAULT = true;
 
-const uint64_t conf::SMOOTHING_VALUE_DEFAULT = 1200;
+const uint64_t conf::SMOOTHING_VALUE_DEFAULT = 2000;
 
 const bool conf::SLEEPING_ENABLED_DEFAULT = true;
 
