@@ -65,5 +65,5 @@ Command-line arguments allow you to set the location of configuration file as we
 ```console
 foo@bar:~$ ./polycat --config-path ./config-files/config.json --stat-path /proc/stat
 ```
-In this example, the config file path would be **~/.config-files/config.json** and stat path would be **/proc/stat**
+In this example, the config file path would be **~/config-files/config.json** and stat path would be **/proc/stat**
 
