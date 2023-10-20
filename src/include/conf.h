@@ -18,6 +18,10 @@ public:
 
     static const uint64_t POLL_PERIOD_DEFAULT;
 
+    static const bool SMOOTHING_ENABLED_DEFAULT;
+
+    static const uint64_t SMOOTHING_VALUE_DEFAULT;
+
     static const std::string FRAMES_KEY;
 
     static const std::string HIGH_RATE_KEY;
@@ -25,6 +29,10 @@ public:
     static const std::string LOW_RATE_KEY;
 
     static const std::string POLL_PERIOD_KEY;
+
+    static const std::string SMOOTHING_ENABLED_KEY;
+
+    static const std::string SMOOTHING_VALUE_KEY;
 
     class open_err : public std::exception
     {
@@ -82,6 +90,10 @@ public:
 
     uint64_t poll_period() const noexcept;
 
+    bool smoothing_enabled() const noexcept;
+
+    uint64_t smoothing_value() const noexcept;
+
 private:
     std::string m_path;
 
@@ -89,6 +101,8 @@ private:
     uint8_t m_low_rate;
     uint8_t m_high_rate;
     uint64_t m_poll_period;
+    bool m_smoothing_enabled;
+    uint64_t m_smoothing_value;
 };
 
 }
