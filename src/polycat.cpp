@@ -6,10 +6,10 @@
 #include "args.h"
 #include "conf.h"
 #include "framer.h"
+#include "smoother.h"
 #include "rate_poll.h"
 
-std::chrono::milliseconds get_period(
-    uint64_t low_rate, uint64_t high_rate, float cpu_load);
+uint64_t get_period(uint64_t low_rate, uint64_t high_rate, float cpu_load);
 
 int main(int argc, char** argv)
 {
@@ -42,6 +42,7 @@ int main(int argc, char** argv)
 
     pcat::framer framer(conf.frames());
     pcat::rate_poll rate_poll(conf.poll_period(), args.stat_path());
+    pcat::smoother smoother(5000);
 
     uint64_t low_rate = conf.low_rate();
     uint64_t high_rate = conf.high_rate();
@@ -50,6 +51,7 @@ int main(int argc, char** argv)
         std::ref(rate_poll));
 
     bool err = false;
+    uint64_t period_prev = get_period(low_rate, high_rate, 0.0f);
     while (1)
     {
         using namespace std::chrono;
@@ -74,7 +76,13 @@ int main(int argc, char** argv)
         }
 
         float load = rate_poll.poll();
-        point += get_period(low_rate, high_rate, load);
+        smoother.target(load);
+        float load_smoothed = smoother.value(period_prev);
+
+        uint64_t period = get_period(low_rate, high_rate, load_smoothed);
+        point += std::chrono::milliseconds(period);
+
+        period_prev = period;
 
         std::cout << framer.get() << std::endl;
 
@@ -86,8 +94,7 @@ int main(int argc, char** argv)
     return err ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
-std::chrono::milliseconds get_period(
-    uint64_t low_rate, uint64_t high_rate, float cpu_load)
+uint64_t get_period(uint64_t low_rate, uint64_t high_rate, float cpu_load)
 {
     uint64_t diff = high_rate - low_rate;
 
@@ -95,5 +102,5 @@ std::chrono::milliseconds get_period(
 
     uint64_t period = 1000 / rate;
 
-    return std::chrono::milliseconds(period);
+    return period;
 }
