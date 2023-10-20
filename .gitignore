@@ -1,9 +1,11 @@
 .vscode
 build
+bin
 releases
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
+*/CMakeFiles
 CMakeScripts
 Testing
 Makefile
@@ -13,4 +15,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 .cache
-
+CPackConfig.cmake
+CPackSourceConfig.cmake
+polycat-config.json
