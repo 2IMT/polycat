@@ -54,7 +54,7 @@ int main(int argc, char** argv)
     bool err = false;
     uint64_t period_prev = get_period(low_rate, high_rate, 0.0f);
     bool sleeping = false;
-    while (1)
+    while (true)
     {
         using namespace std::chrono;
         auto point = steady_clock::now();
