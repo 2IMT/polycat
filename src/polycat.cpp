@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
     pcat::framer framer(conf.frames());
     pcat::rate_poll rate_poll(conf.poll_period(), args.stat_path());
-    pcat::smoother smoother(5000);
+    pcat::smoother smoother(conf.smoothing_value());
 
     uint64_t low_rate = conf.low_rate();
     uint64_t high_rate = conf.high_rate();
@@ -79,7 +79,9 @@ int main(int argc, char** argv)
         smoother.target(load);
         float load_smoothed = smoother.value(period_prev);
 
-        uint64_t period = get_period(low_rate, high_rate, load_smoothed);
+        uint64_t period = get_period(low_rate, high_rate,
+            conf.smoothing_enabled() ? load_smoothed : load);
+
         point += std::chrono::milliseconds(period);
 
         period_prev = period;
