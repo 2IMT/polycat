@@ -9,7 +9,7 @@
 namespace pcat
 {
 
-const std::string conf::FRAMES_DEFAULT = "";
+const std::string conf::FRAMES_DEFAULT = "";
 
 const uint8_t conf::LOW_RATE_DEFAULT = 3;
 
@@ -20,6 +20,16 @@ const uint64_t conf::POLL_PERIOD_DEFAULT = 500;
 const bool conf::SMOOTHING_ENABLED_DEFAULT = true;
 
 const uint64_t conf::SMOOTHING_VALUE_DEFAULT = 1200;
+
+const bool conf::SLEEPING_ENABLED_DEFAULT = true;
+
+const uint64_t conf::SLEEPING_THRESHOLD_DEFAULT = 8;
+
+const uint64_t conf::WAKEUP_THRESHOLD_DEFAULT = 12;
+
+const std::string conf::SLEEPING_FRAMES_DEFAULT = "";
+
+const uint64_t conf::SLEEPING_RATE_DEFAULT = 4;
 
 const std::string conf::FRAMES_KEY = "frames";
 
@@ -32,6 +42,16 @@ const std::string conf::POLL_PERIOD_KEY = "pollingPeriod";
 const std::string conf::SMOOTHING_ENABLED_KEY = "smoothEnabled";
 
 const std::string conf::SMOOTHING_VALUE_KEY = "smoothValue";
+
+const std::string conf::SLEEPING_ENABLED_KEY = "sleepEnabled";
+
+const std::string conf::SLEEPING_THRESHOLD_KEY = "sleepThreshold";
+
+const std::string conf::WAKEUP_THRESHOLD_KEY = "wakeupThreshold";
+
+const std::string conf::SLEEPING_FRAMES_KEY = "sleepFrames";
+
+const std::string conf::SLEEPING_RATE_KEY = "sleepRate";
 
 conf::open_err::open_err(const std::string& message) noexcept :
     m_message(message)
@@ -68,7 +88,12 @@ conf::conf(const std::string& config_path) noexcept :
     m_high_rate(HIGH_RATE_DEFAULT),
     m_poll_period(POLL_PERIOD_DEFAULT),
     m_smoothing_enabled(SMOOTHING_ENABLED_DEFAULT),
-    m_smoothing_value(SMOOTHING_VALUE_DEFAULT)
+    m_smoothing_value(SMOOTHING_VALUE_DEFAULT),
+    m_sleeping_enabled(SLEEPING_ENABLED_DEFAULT),
+    m_sleeping_threshold(SLEEPING_THRESHOLD_DEFAULT),
+    m_wakeup_threshold(WAKEUP_THRESHOLD_DEFAULT),
+    m_sleeping_frames(SLEEPING_FRAMES_DEFAULT),
+    m_sleeping_rate(SLEEPING_RATE_DEFAULT)
 {
 }
 
@@ -115,6 +140,11 @@ void conf::load()
     uint64_t poll_period = 0;
     bool smoothing_enabled = false;
     uint64_t smoothing_value = 0;
+    bool sleeping_enabled = false;
+    uint64_t sleeping_threshold = 0;
+    uint64_t wakeup_threshold = 0;
+    std::string sleeping_frames = "";
+    uint64_t sleeping_rate = 0;
 
     std::string last_checked;
     try
@@ -140,6 +170,25 @@ void conf::load()
         last_checked = SMOOTHING_VALUE_KEY;
         smoothing_value =
             json.value(SMOOTHING_VALUE_KEY, SMOOTHING_VALUE_DEFAULT);
+
+        last_checked = SLEEPING_ENABLED_KEY;
+        sleeping_enabled =
+            json.value(SLEEPING_ENABLED_KEY, SLEEPING_ENABLED_DEFAULT);
+
+        last_checked = SLEEPING_THRESHOLD_KEY;
+        sleeping_threshold =
+            json.value(SLEEPING_THRESHOLD_KEY, SLEEPING_THRESHOLD_DEFAULT);
+
+        last_checked = WAKEUP_THRESHOLD_KEY;
+        wakeup_threshold =
+            json.value(WAKEUP_THRESHOLD_KEY, WAKEUP_THRESHOLD_DEFAULT);
+
+        last_checked = SLEEPING_FRAMES_KEY;
+        sleeping_frames =
+            json.value(SLEEPING_FRAMES_KEY, SLEEPING_FRAMES_DEFAULT);
+
+        last_checked = SLEEPING_RATE_KEY;
+        sleeping_rate = json.value(SLEEPING_RATE_KEY, SLEEPING_RATE_DEFAULT);
     }
     catch (std::ios::failure&)
     {
@@ -216,6 +265,62 @@ void conf::load()
         err = true;
     }
 
+    if (sleeping_threshold < 1 || sleeping_threshold > 100)
+    {
+        if (err)
+        {
+            message << "\n";
+        }
+        message << "Key \"" << SLEEPING_THRESHOLD_KEY
+                << "\" should be a number in range [1-100] inclusive";
+        err = true;
+    }
+
+    if (wakeup_threshold < 1 || wakeup_threshold > 100)
+    {
+        if (err)
+        {
+            message << "\n";
+        }
+        message << "Key \"" << WAKEUP_THRESHOLD_KEY
+                << "\" should be a number in range [1-100] inclusive";
+        err = true;
+    }
+
+    if (sleeping_threshold > wakeup_threshold)
+    {
+        if (err)
+        {
+            message << "\n";
+        }
+        message << "\"" << WAKEUP_THRESHOLD_KEY
+                << "\" should be greater than \"" << SLEEPING_THRESHOLD_KEY
+                << "\"";
+    }
+
+    if (sleeping_frames.length() < 1)
+    {
+        if (err)
+        {
+            message << "\n";
+        }
+        message << "Key \"" << SLEEPING_FRAMES_KEY
+                << "\" cannot be an empty string.";
+        err = true;
+    }
+
+    if (sleeping_rate < 1 ||
+        sleeping_rate > std::numeric_limits<uint8_t>().max())
+    {
+        if (err)
+        {
+            message << "\n";
+        }
+        message << "Key \"" << SLEEPING_RATE_KEY
+                << "\" should be a number in range [1-255] inclusive.";
+        err = true;
+    }
+
     if (err)
     {
         throw fmt_err(message.str());
@@ -227,6 +332,11 @@ void conf::load()
     m_poll_period = poll_period;
     m_smoothing_enabled = smoothing_enabled;
     m_smoothing_value = smoothing_value;
+    m_sleeping_enabled = sleeping_enabled;
+    m_sleeping_threshold = sleeping_threshold;
+    m_wakeup_threshold = wakeup_threshold;
+    m_sleeping_frames = sleeping_frames;
+    m_sleeping_rate = sleeping_rate;
 }
 
 std::string conf::frames() const noexcept { return m_frames; }
@@ -240,5 +350,18 @@ uint64_t conf::poll_period() const noexcept { return m_poll_period; }
 bool conf::smoothing_enabled() const noexcept { return m_smoothing_enabled; }
 
 uint64_t conf::smoothing_value() const noexcept { return m_smoothing_value; }
+
+bool conf::sleeping_enabled() const noexcept { return m_sleeping_enabled; }
+
+uint8_t conf::sleeping_threshold() const noexcept
+{
+    return m_sleeping_threshold;
+}
+
+uint8_t conf::wakeup_threshold() const noexcept { return m_wakeup_threshold; }
+
+std::string conf::sleeping_frames() const noexcept { return m_sleeping_frames; }
+
+uint8_t conf::sleeping_rate() const noexcept { return m_sleeping_rate; }
 
 }

@@ -22,6 +22,16 @@ public:
 
     static const uint64_t SMOOTHING_VALUE_DEFAULT;
 
+    static const bool SLEEPING_ENABLED_DEFAULT;
+
+    static const uint64_t SLEEPING_THRESHOLD_DEFAULT;
+
+    static const uint64_t WAKEUP_THRESHOLD_DEFAULT;
+
+    static const std::string SLEEPING_FRAMES_DEFAULT;
+
+    static const uint64_t SLEEPING_RATE_DEFAULT;
+
     static const std::string FRAMES_KEY;
 
     static const std::string HIGH_RATE_KEY;
@@ -33,6 +43,16 @@ public:
     static const std::string SMOOTHING_ENABLED_KEY;
 
     static const std::string SMOOTHING_VALUE_KEY;
+
+    static const std::string SLEEPING_ENABLED_KEY;
+
+    static const std::string SLEEPING_THRESHOLD_KEY;
+
+    static const std::string WAKEUP_THRESHOLD_KEY;
+
+    static const std::string SLEEPING_FRAMES_KEY;
+
+    static const std::string SLEEPING_RATE_KEY;
 
     class open_err : public std::exception
     {
@@ -94,6 +114,16 @@ public:
 
     uint64_t smoothing_value() const noexcept;
 
+    bool sleeping_enabled() const noexcept;
+
+    uint8_t sleeping_threshold() const noexcept;
+
+    uint8_t wakeup_threshold() const noexcept;
+
+    std::string sleeping_frames() const noexcept;
+
+    uint8_t sleeping_rate() const noexcept;
+
 private:
     std::string m_path;
 
@@ -103,6 +133,11 @@ private:
     uint64_t m_poll_period;
     bool m_smoothing_enabled;
     uint64_t m_smoothing_value;
+    bool m_sleeping_enabled;
+    uint8_t m_sleeping_threshold;
+    uint8_t m_wakeup_threshold;
+    std::string m_sleeping_frames;
+    uint8_t m_sleeping_rate;
 };
 
 }
