@@ -41,6 +41,7 @@ int main(int argc, char** argv)
     }
 
     pcat::framer framer(conf.frames());
+    pcat::framer sleeping_framer(conf.sleeping_frames());
     pcat::rate_poll rate_poll(conf.poll_period(), args.stat_path());
     pcat::smoother smoother(conf.smoothing_value());
 
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
 
     bool err = false;
     uint64_t period_prev = get_period(low_rate, high_rate, 0.0f);
+    bool sleeping = false;
     while (1)
     {
         using namespace std::chrono;
@@ -78,15 +80,34 @@ int main(int argc, char** argv)
         float load = rate_poll.poll();
         smoother.target(load);
         float load_smoothed = smoother.value(period_prev);
+        float load_displayed = conf.smoothing_enabled() ? load_smoothed : load;
 
-        uint64_t period = get_period(low_rate, high_rate,
-            conf.smoothing_enabled() ? load_smoothed : load);
+        // Change sleeping state
+        if (!sleeping)
+        {
+            sleeping = conf.sleeping_enabled()
+                         ? load_displayed <= conf.sleeping_threshold() / 100.0f
+                         : false;
+        }
+        else
+        {
+            sleeping = (load_displayed <= conf.wakeup_threshold() / 100.0f);
+        }
 
-        point += std::chrono::milliseconds(period);
-
-        period_prev = period;
-
-        std::cout << framer.get() << std::endl;
+        // Set the period and print the cat
+        if (!sleeping)
+        {
+            uint64_t period = get_period(low_rate, high_rate, load_displayed);
+            point += std::chrono::milliseconds(period);
+            period_prev = period;
+            std::cout << framer.get() << std::endl;
+        }
+        else
+        {
+            uint64_t period = 1000.0f / conf.sleeping_rate();
+            point += std::chrono::milliseconds(period);
+            std::cout << sleeping_framer.get() << std::endl;
+        }
 
         std::this_thread::sleep_until(point);
     }
