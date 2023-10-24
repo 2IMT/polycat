@@ -78,7 +78,7 @@ enables sleeping.
 - `sleepThreshold` (number [1-100] inclusive) 
 sets the maximum CPU load needed to transition from active mode to sleeping mode.
 - `wakeupThreshold` (number [1-100] inclusive, >sleepThreshold) 
-sets the minimum CPU load value needed to transition from sleeping mode to active. mode
+sets the minimum CPU load value needed to transition from sleeping mode to active mode
 - `sleepFrames` (non-empty string)
 sets the frames to loop through in sleeping mode.
 - `sleepRate` (number [1-255] inclusive)
