@@ -1,6 +1,15 @@
 {
-    "frames": "",
-    "lowRate": 3,
-    "highRate": 60,
-    "pollingPeriod": 500
+    "frames": "",
+    "lowRate": 2,
+    "highRate": 30,
+    "pollingPeriod": 1000,
+    "smoothEnabled": true,
+    "smoothValue": 2000,
+    "sleepEnabled": true,
+    "sleepThreshold": 8,
+    "wakeupThreshold": 12,
+    "sleepFrames": "",
+    "sleepRate": 4,
+    "formatEnabled": false,
+    "format": "$frame $lcpu"
 }
