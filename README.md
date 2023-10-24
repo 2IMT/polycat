@@ -46,7 +46,7 @@ If config file doesn't exist, polycat automatically creates an empty config file
 #### Default configuration values
 ```json
 {
-    "frames": "",
+    "frames": "",
     "lowRate": 2,
     "highRate": 30,
     "pollingPeriod": 1000,
