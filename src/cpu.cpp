@@ -2,6 +2,8 @@
 
 #include <sstream>
 #include <numeric>
+#include <vector>
+#include <fstream>
 
 namespace pcat
 {
