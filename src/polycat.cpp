@@ -2,11 +2,13 @@
 #include <cstdlib>
 #include <thread>
 #include <chrono>
+#include <cmath>
 
 #include "args.h"
 #include "conf.h"
 #include "framer.h"
 #include "smoother.h"
+#include "formatter.h"
 #include "rate_poll.h"
 
 uint64_t get_period(uint64_t low_rate, uint64_t high_rate, float cpu_load);
@@ -34,6 +36,19 @@ int main(int argc, char** argv)
         conf.load();
     }
     catch (std::exception& e)
+    {
+        std::cout << "Config error, file " << args.conf_path() << std::endl
+                  << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    pcat::formatter formatter;
+
+    try
+    {
+        formatter.set(conf.format());
+    }
+    catch (pcat::formatter::fmt_err& e)
     {
         std::cout << "Config error, file " << args.conf_path() << std::endl
                   << e.what() << std::endl;
@@ -94,19 +109,32 @@ int main(int argc, char** argv)
             sleeping = (load_displayed <= conf.wakeup_threshold() / 100.0f);
         }
 
+        std::string frame;
+
         // Set the period and print the cat
         if (!sleeping)
         {
             uint64_t period = get_period(low_rate, high_rate, load_displayed);
             point += std::chrono::milliseconds(period);
             period_prev = period;
-            std::cout << framer.get() << std::endl;
+            frame = framer.get();
         }
         else
         {
             uint64_t period = 1000.0f / conf.sleeping_rate();
             point += std::chrono::milliseconds(period);
-            std::cout << sleeping_framer.get() << std::endl;
+            frame = sleeping_framer.get();
+        }
+
+        // Format the output, if formatting is enabled
+        if (conf.format_enabled())
+        {
+            uint8_t format_load = (uint8_t)std::lround(load * 100.0f);
+            std::cout << formatter.format(frame, format_load) << std::endl;
+        }
+        else
+        {
+            std::cout << frame << std::endl;
         }
 
         std::this_thread::sleep_until(point);
