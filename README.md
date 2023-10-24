@@ -40,7 +40,7 @@ Here you go
 ### Configuration <a id="features-configuration"></a>
 Polycat is configured with json file usually placed in the working directory of polycat (config path is specified using [command-line arguments](#features-arguments)).
 
-If config file doesn't exist, polycat automatically creates the empty config file.
+If config file doesn't exist, polycat automatically creates an empty config file.
 
 #### Default configuration values
 ```json
