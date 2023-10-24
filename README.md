@@ -8,6 +8,7 @@ runcat module for polybar (or waybar)
 - [Features](#features)
     - [Configuration](#features-configuration)
     - [Command-line arguments](#features-arguments)
+- [Building](#building)
 
 ## Usage <a id="usage"></a>
 - Install the font
@@ -109,3 +110,10 @@ foo@bar:~$ ./polycat --config-path ./config-files/config.json --stat-path /proc/
 ```
 In this example, the config file path would be **~/config-files/config.json** and stat path would be **/proc/stat**
 
+## Building <a id="building"></a>
+```console
+foo@bar:~$ git clone https://github.com/2IMT/polycat.git
+foo@bar:~$ cd polycat
+foo@bar:polycat$ cmake -DCMAKE_BUILD_TYPE=RELEASE .
+foo@bar:polycat$ cmake --build .
+```
