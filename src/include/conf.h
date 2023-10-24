@@ -32,6 +32,10 @@ public:
 
     static const uint64_t SLEEPING_RATE_DEFAULT;
 
+    static const bool FORMAT_ENABLED_DEFAULT;
+
+    static const std::string FORMAT_DEFAULT;
+
     static const std::string FRAMES_KEY;
 
     static const std::string HIGH_RATE_KEY;
@@ -53,6 +57,10 @@ public:
     static const std::string SLEEPING_FRAMES_KEY;
 
     static const std::string SLEEPING_RATE_KEY;
+
+    static const std::string FORMAT_ENABLED_KEY;
+
+    static const std::string FORMAT_KEY;
 
     class open_err : public std::exception
     {
@@ -124,6 +132,10 @@ public:
 
     uint8_t sleeping_rate() const noexcept;
 
+    bool format_enabled() const noexcept;
+
+    std::string format() const noexcept;
+
 private:
     std::string m_path;
 
@@ -138,6 +150,8 @@ private:
     uint8_t m_wakeup_threshold;
     std::string m_sleeping_frames;
     uint8_t m_sleeping_rate;
+    bool m_format_enabled;
+    std::string m_format;
 };
 
 }

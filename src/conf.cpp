@@ -31,6 +31,10 @@ const std::string conf::SLEEPING_FRAMES_DEFAULT = "";
 
 const uint64_t conf::SLEEPING_RATE_DEFAULT = 4;
 
+const bool conf::FORMAT_ENABLED_DEFAULT = false;
+
+const std::string conf::FORMAT_DEFAULT = "$frame $lcpu";
+
 const std::string conf::FRAMES_KEY = "frames";
 
 const std::string conf::HIGH_RATE_KEY = "highRate";
@@ -52,6 +56,10 @@ const std::string conf::WAKEUP_THRESHOLD_KEY = "wakeupThreshold";
 const std::string conf::SLEEPING_FRAMES_KEY = "sleepFrames";
 
 const std::string conf::SLEEPING_RATE_KEY = "sleepRate";
+
+const std::string conf::FORMAT_ENABLED_KEY = "formatEnabled";
+
+const std::string conf::FORMAT_KEY = "format";
 
 conf::open_err::open_err(const std::string& message) noexcept :
     m_message(message)
@@ -93,7 +101,9 @@ conf::conf(const std::string& config_path) noexcept :
     m_sleeping_threshold(SLEEPING_THRESHOLD_DEFAULT),
     m_wakeup_threshold(WAKEUP_THRESHOLD_DEFAULT),
     m_sleeping_frames(SLEEPING_FRAMES_DEFAULT),
-    m_sleeping_rate(SLEEPING_RATE_DEFAULT)
+    m_sleeping_rate(SLEEPING_RATE_DEFAULT),
+    m_format_enabled(FORMAT_ENABLED_DEFAULT),
+    m_format(FORMAT_DEFAULT)
 {
 }
 
@@ -145,6 +155,8 @@ void conf::load()
     uint64_t wakeup_threshold = 0;
     std::string sleeping_frames = "";
     uint64_t sleeping_rate = 0;
+    bool format_enabled = false;
+    std::string format = "";
 
     std::string last_checked;
     try
@@ -189,6 +201,12 @@ void conf::load()
 
         last_checked = SLEEPING_RATE_KEY;
         sleeping_rate = json.value(SLEEPING_RATE_KEY, SLEEPING_RATE_DEFAULT);
+
+        last_checked = FORMAT_ENABLED_KEY;
+        format_enabled = json.value(FORMAT_ENABLED_KEY, FORMAT_ENABLED_DEFAULT);
+
+        last_checked = FORMAT_KEY;
+        format = json.value(FORMAT_KEY, FORMAT_DEFAULT);
     }
     catch (std::ios::failure&)
     {
@@ -337,6 +355,8 @@ void conf::load()
     m_wakeup_threshold = wakeup_threshold;
     m_sleeping_frames = sleeping_frames;
     m_sleeping_rate = sleeping_rate;
+    m_format_enabled = format_enabled;
+    m_format = format;
 }
 
 std::string conf::frames() const noexcept { return m_frames; }
@@ -363,5 +383,9 @@ uint8_t conf::wakeup_threshold() const noexcept { return m_wakeup_threshold; }
 std::string conf::sleeping_frames() const noexcept { return m_sleeping_frames; }
 
 uint8_t conf::sleeping_rate() const noexcept { return m_sleeping_rate; }
+
+bool conf::format_enabled() const noexcept { return m_format_enabled; }
+
+std::string conf::format() const noexcept { return m_format; }
 
 }
