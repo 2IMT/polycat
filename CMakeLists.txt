@@ -8,6 +8,7 @@ set(SOURCES
     src/framer.cpp
     src/polycat.cpp
     src/smoother.cpp
+    src/formatter.cpp
     src/rate_poll.cpp
 )
 
