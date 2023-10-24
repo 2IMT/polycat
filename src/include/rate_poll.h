@@ -1,9 +1,9 @@
 #pragma once
 
-#include <atomic>
-#include <chrono>
 #include <string>
 #include <chrono>
+#include <cstdint>
+#include <thread>
 
 #include "cpu.h"
 
