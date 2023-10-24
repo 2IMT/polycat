@@ -18,7 +18,7 @@ public:
     /**
      * @brief Thrown on IO errors
      */
-    class io_err : std::exception
+    class io_err : public std::exception
     {
     public:
         io_err(const std::string& message) noexcept;
@@ -32,7 +32,7 @@ public:
     /**
      * @brief Thrown on stat file format errors
      */
-    class fmt_err : std::exception
+    class fmt_err : public std::exception
     {
     public:
         fmt_err(const std::string& message) noexcept;
