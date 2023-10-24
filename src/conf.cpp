@@ -167,10 +167,12 @@ void conf::load()
         frames = json.value(FRAMES_KEY, FRAMES_DEFAULT);
 
         last_checked = LOW_RATE_KEY;
-        low_rate = json.value(LOW_RATE_KEY, (uint64_t)LOW_RATE_DEFAULT);
+        low_rate =
+            json.value(LOW_RATE_KEY, static_cast<uint64_t>(LOW_RATE_DEFAULT));
 
         last_checked = HIGH_RATE_KEY;
-        high_rate = json.value(HIGH_RATE_KEY, (uint64_t)HIGH_RATE_DEFAULT);
+        high_rate =
+            json.value(HIGH_RATE_KEY, static_cast<uint64_t>(HIGH_RATE_DEFAULT));
 
         last_checked = POLL_PERIOD_KEY;
         poll_period = json.value(POLL_PERIOD_KEY, POLL_PERIOD_DEFAULT);

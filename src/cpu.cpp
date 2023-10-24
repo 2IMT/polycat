@@ -37,7 +37,7 @@ float cpu::poll()
 
     m_state_prev = state_curr;
 
-    return (float)work_d / (float)total_d;
+    return static_cast<float>(work_d) / static_cast<float>(total_d);
 }
 
 cpu::state cpu::get_state()

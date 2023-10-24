@@ -129,7 +129,8 @@ int main(int argc, char** argv)
         // Format the output, if formatting is enabled
         if (conf.format_enabled())
         {
-            uint8_t format_load = (uint8_t)std::lround(load * 100.0f);
+            uint8_t format_load =
+                static_cast<uint8_t>(std::lround(load * 100.0f));
             std::cout << formatter.format(frame, format_load) << std::endl;
         }
         else
@@ -149,7 +150,7 @@ uint64_t get_period(uint64_t low_rate, uint64_t high_rate, float cpu_load)
 {
     uint64_t diff = high_rate - low_rate;
 
-    uint64_t rate = low_rate + (uint64_t)(cpu_load * diff);
+    uint64_t rate = low_rate + static_cast<uint64_t>(cpu_load * diff);
 
     uint64_t period = 1000 / rate;
 

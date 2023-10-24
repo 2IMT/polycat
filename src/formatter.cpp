@@ -101,7 +101,7 @@ std::string formatter::format(
     std::string result = m_format;
 
     std::string r_load_string =
-        std::to_string((uint32_t)load) + std::string("%");
+        std::to_string(static_cast<uint32_t>(load)) + std::string("%");
     std::string l_load_string = r_load_string;
 
     while (l_load_string.length() < 4 && r_load_string.length() < 4)

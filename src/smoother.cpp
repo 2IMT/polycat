@@ -23,7 +23,7 @@ float smoother::value(uint64_t delta) noexcept
 
     float diff = m_target - m_prev;
     int sign = (diff > 0) - (diff < 0);
-    float step = (float)delta / m_period;
+    float step = static_cast<float>(delta) / static_cast<float>(m_period);
 
     float result = m_prev;
     result += step * sign;
