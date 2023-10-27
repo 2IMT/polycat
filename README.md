@@ -112,7 +112,7 @@ In this example, the config file path would be **~/config-files/config.json** an
 
 ## Building <a id="building"></a>
 ```console
-foo@bar:~$ git clone https://github.com/2IMT/polycat.git
+foo@bar:~$ git clone --recursive https://github.com/2IMT/polycat.git
 foo@bar:~$ cd polycat
 foo@bar:polycat$ cmake -DCMAKE_BUILD_TYPE=RELEASE .
 foo@bar:polycat$ cmake --build .
