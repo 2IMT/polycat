@@ -6,36 +6,39 @@ runcat module for polybar (or waybar)
 
 - [Polycat](#polycat)
 - [Table of Contents](#table-of-contents)
-- [Usage](#usage)
+- [Installation](#installation)
 - [Features](#features)
   - [Configuration](#features-configuration)
   - [Command-line arguments](#features-arguments)
 - [Building](#building)
 
-## Usage <a id="usage"></a>
+## Installation <a id="installation"></a>
+
+- Build polycat (see [Building](#building))
 
 - Install the font
 
 ```console
-$ git clone https://github.com/2IMT/polycat.git
-$ cd polycat/res
-$ cp runcat.ttf ~/.local/share/fonts/runcat.ttf
+$ cd <cloned-polycat-repo>/res
+$ cp polycat.ttf ~/.local/share/fonts/polycat.ttf
 ```
 
-- Place the executable in **~/.config/polybar/modules** directory (or any other)
-- Add the module to your polybar config:
+- Add polycat module to your polybar config:
 
 ```ini
 [module/polycat]
 type = custom/polycat
-exec = ~/.config/polybar/modules/polycat --config-path ~/.config/polybar/modules/polycat-config.json
+exec = <path-to-polycat-executable>
 tail = true
 ```
 
-- Place the module where you want
+- Place the module and add the font
 
 ```ini
 [bar/your-bar]
+...
+; font-0 ...
+font-1 "polycat"
 ...
 ; modules-left = ... polycat ...
 modules-right = ... polycat ...
@@ -135,4 +138,5 @@ $ git clone --recursive https://github.com/2IMT/polycat.git
 $ cd polycat
 $ cmake -DCMAKE_BUILD_TYPE=RELEASE .
 $ cmake --build .
+$ ./polycat # Run polycat
 ```
