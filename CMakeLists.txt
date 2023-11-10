@@ -19,13 +19,8 @@ target_compile_options(polycat PRIVATE
     -Wpedantic 
     -Werror 
     -Wno-sign-compare)
-set_target_properties(polycat
-    PROPERTIES
-    CXX_STANDARD 20
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-)
+set_target_properties(polycat PROPERTIES CXX_STANDARD 20)
+
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(dep/nlohmann-json)
 
