@@ -1,5 +1,6 @@
 #include "conf.h"
 
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <limits>
@@ -61,6 +62,43 @@ namespace pcat
 
     const std::string conf::FORMAT_KEY = "format";
 
+    void create_default_config(const std::string& path)
+    {
+        std::ofstream ofstream;
+        ofstream.exceptions(std::ios::badbit | std::ios::failbit);
+        ofstream.open(path);
+
+        nlohmann::ordered_json config = {
+            {            conf::FRAMES_KEY,             conf::FRAMES_DEFAULT},
+
+            {         conf::HIGH_RATE_KEY,          conf::HIGH_RATE_DEFAULT},
+
+            {          conf::LOW_RATE_KEY,           conf::LOW_RATE_DEFAULT},
+
+            {       conf::POLL_PERIOD_KEY,        conf::POLL_PERIOD_DEFAULT},
+
+            { conf::SMOOTHING_ENABLED_KEY,  conf::SMOOTHING_ENABLED_DEFAULT},
+
+            {   conf::SMOOTHING_VALUE_KEY,    conf::SMOOTHING_VALUE_DEFAULT},
+
+            {  conf::SLEEPING_ENABLED_KEY,   conf::SLEEPING_ENABLED_DEFAULT},
+
+            {conf::SLEEPING_THRESHOLD_KEY, conf::SLEEPING_THRESHOLD_DEFAULT},
+
+            {  conf::WAKEUP_THRESHOLD_KEY,   conf::WAKEUP_THRESHOLD_DEFAULT},
+
+            {   conf::SLEEPING_FRAMES_KEY,    conf::SLEEPING_FRAMES_DEFAULT},
+
+            {     conf::SLEEPING_RATE_KEY,      conf::SLEEPING_RATE_DEFAULT},
+
+            {    conf::FORMAT_ENABLED_KEY,     conf::FORMAT_ENABLED_DEFAULT},
+
+            {            conf::FORMAT_KEY,             conf::FORMAT_DEFAULT}
+        };
+
+        ofstream << std::setw(4) << config << std::endl;
+    }
+
     conf::open_err::open_err(const std::string& message) noexcept :
         m_message(message)
     {
@@ -121,27 +159,17 @@ namespace pcat
 
     void conf::load()
     {
-        std::ifstream conf_exists;
-        conf_exists.open(m_path);
-
-        if (!conf_exists)
+        if (!std::filesystem::exists(m_path))
         {
             try
             {
-                std::ofstream conf_empty;
-                conf_empty.exceptions(std::ios::badbit | std::ios::failbit);
-
-                conf_empty.open(m_path);
-                conf_empty << "{\n}" << std::endl;
-                conf_empty.close();
+                create_default_config(m_path);
             }
             catch (std::ios::failure&)
             {
                 throw open_err("Failed to create an empty config file.");
             }
         }
-
-        conf_exists.close();
 
         std::ifstream ifstream;
 
@@ -416,5 +444,4 @@ namespace pcat
     bool conf::format_enabled() const noexcept { return m_format_enabled; }
 
     std::string conf::format() const noexcept { return m_format; }
-
 }
