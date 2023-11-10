@@ -50,17 +50,17 @@ Here you go
 
 ### Configuration <a id="features-configuration"></a>
 
-Polycat is configured with json file usually placed in the working directory of polycat (config path is specified using [command-line arguments](#features-arguments)).
+Polycat is configured with json file placed in `$HOME/.config/polycat-config.json` (config path is specified using [command-line arguments](#features-arguments)).
 
-If config file doesn't exist, polycat automatically creates an empty config file.
+If config file doesn't exist, polycat automatically creates a config file with default values.
 
 #### Default configuration values
 
 ```json
 {
   "frames": "",
-  "lowRate": 2,
   "highRate": 30,
+  "lowRate": 2,
   "pollingPeriod": 1000,
   "smoothEnabled": true,
   "smoothValue": 2000,
