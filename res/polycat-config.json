@@ -1,7 +1,7 @@
 {
     "frames": "",
-    "lowRate": 2,
     "highRate": 30,
+    "lowRate": 2,
     "pollingPeriod": 1000,
     "smoothEnabled": true,
     "smoothValue": 2000,
