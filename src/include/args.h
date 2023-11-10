@@ -34,7 +34,7 @@ namespace pcat
 
         static const std::string STAT_PATH_DEFAULT;
 
-        static const std::string CONF_PATH_DEFAULT;
+        static const std::string CONF_NAME;
 
         /**
          * Thrown on parsing errors
