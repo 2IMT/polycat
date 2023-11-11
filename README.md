@@ -7,6 +7,8 @@ runcat module for polybar (or waybar)
 - [Polycat](#polycat)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
+  - [Arch-Based Distributions](#installation-arch-based)
+  - [Other Distributions](#installation-other)
 - [Features](#features)
   - [Configuration](#features-configuration)
   - [Command-line arguments](#features-arguments)
@@ -14,16 +16,25 @@ runcat module for polybar (or waybar)
 
 ## Installation <a id="installation"></a>
 
-- Build polycat (see [Building](#building))
+### Arch-Based Distributions <a id="installation-arch-based"></a>
 
-- Install the font
+Arch-Based users can directly install the
+[AUR package](https://aur.archlinux.org/packages/polycat)
+and follow 3-4 installation steps in
+[Other Distributions](#installation-other) section.
+
+### Other Distributions <a id="installation-other"></a>
+
+1. Build polycat (see [Building](#building))
+
+2. Install the font
 
 ```console
 $ cd <cloned-polycat-repo>/res
 $ cp polycat.ttf ~/.local/share/fonts/polycat.ttf
 ```
 
-- Add polycat module to your polybar config:
+3. Add polycat module to your polybar config:
 
 ```ini
 [module/polycat]
@@ -32,7 +43,7 @@ exec = <path-to-polycat-executable>
 tail = true
 ```
 
-- Place the module and add the font
+4. Place the module and add the font
 
 ```ini
 [bar/your-bar]
