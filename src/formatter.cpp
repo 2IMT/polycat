@@ -3,10 +3,10 @@
 #include <sstream>
 #include <cstddef>
 
-std::size_t count_occurences(
+size_t count_occurences(
     const std::string& string, const std::string& substring) noexcept
 {
-    std::size_t occurences = 0;
+    size_t occurences = 0;
     std::string::size_type pos = 0;
     while ((pos = string.find(substring, pos)) != std::string::npos)
     {
@@ -72,12 +72,11 @@ namespace pcat
         std::string frame_fmt = FORMAT_PREFIX + FRAME_KEY;
         std::string prefix_fmt = FORMAT_PREFIX + PREFIX_KEY;
 
-        std::size_t prefix_occurences = count_occurences(format, FORMAT_PREFIX);
-        std::size_t rcpu_occurences = count_occurences(format, rcpu_fmt);
-        std::size_t lcpu_occurences = count_occurences(format, lcpu_fmt);
-        std::size_t frame_occurences = count_occurences(format, frame_fmt);
-        std::size_t esc_prefix_occurences =
-            count_occurences(format, prefix_fmt);
+        size_t prefix_occurences = count_occurences(format, FORMAT_PREFIX);
+        size_t rcpu_occurences = count_occurences(format, rcpu_fmt);
+        size_t lcpu_occurences = count_occurences(format, lcpu_fmt);
+        size_t frame_occurences = count_occurences(format, frame_fmt);
+        size_t esc_prefix_occurences = count_occurences(format, prefix_fmt);
 
         prefix_occurences -= esc_prefix_occurences;
 
