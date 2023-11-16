@@ -1,7 +1,7 @@
 #include "formatter.h"
 
 #include <sstream>
-#include <regex>
+#include <cstddef>
 
 size_t count_occurences(
     const std::string& string, const std::string& substring) noexcept

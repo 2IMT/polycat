@@ -1,6 +1,6 @@
 #include "smoother.h"
 
-#include <cmath>
+#include <algorithm>
 
 namespace pcat
 {

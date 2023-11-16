@@ -1,6 +1,7 @@
 #include "conf.h"
 
 #include <filesystem>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <limits>

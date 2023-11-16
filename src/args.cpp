@@ -1,8 +1,8 @@
 #include "args.h"
 
 #include <filesystem>
+#include <stdexcept>
 #include <cstdlib>
-#include <sstream>
 
 #include <argparse/argparse.hpp>
 

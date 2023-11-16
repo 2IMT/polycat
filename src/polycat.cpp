@@ -1,5 +1,10 @@
+#include <functional>
+#include <exception>
 #include <iostream>
 #include <cstdlib>
+#include <cstdint>
+#include <clocale>
+#include <string>
 #include <thread>
 #include <chrono>
 #include <cmath>

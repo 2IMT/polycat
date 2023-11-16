@@ -3,7 +3,7 @@
 #include <string>
 #include <chrono>
 #include <cstdint>
-#include <thread>
+#include <mutex>
 
 #include "cpu.h"
 
