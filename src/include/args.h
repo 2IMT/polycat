@@ -14,7 +14,7 @@ namespace pcat
     public:
         static inline const std::string PROGRAM_NAME = "polycat";
 
-        static inline const std::string PROGRAM_VERSION = "1.0.0";
+        static inline const std::string PROGRAM_VERSION = "1.3.0";
 
         static inline const std::string STAT_PATH_DEFAULT = "/proc/stat";
 
