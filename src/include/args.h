@@ -45,7 +45,7 @@ namespace pcat
         static inline const std::string OVERWRITE_ARG_LONG = "--overwrite";
 
         static inline const std::string OVERWRITE_ARG_HELP =
-            "overwrites specified config values (can be specified several "
+            "overwrites the config value (can be specified several "
             "times)";
 
         static inline const std::string OVERWRITE_ARG_META = "<key>=<value>";
