@@ -1,13 +1,69 @@
 #include "args.h"
 
 #include <filesystem>
+#include <format>
 #include <stdexcept>
 #include <cstdlib>
+#include <unordered_set>
 
 #include <argparse/argparse.hpp>
 
 namespace pcat
 {
+
+    std::pair<std::string, std::string> parse_overwrite(
+        const std::string& overwrite)
+    {
+        args::parse_err error(std::format(
+            "Overwrite string \"{}\" has invalid format", overwrite));
+
+        if (overwrite.empty())
+        {
+            throw error;
+        }
+
+        std::pair<std::string, std::string> result;
+
+        size_t equal_count = 0;
+        size_t key_end = 0;
+        size_t value_start = 0;
+        for (std::size_t i = 0; i < overwrite.length(); i++)
+        {
+            char ch = overwrite[i];
+
+            if (i == 0 || i == overwrite.length() - 1)
+            {
+                if (ch == '=')
+                {
+                    throw error;
+                }
+            }
+
+            if (ch == '=')
+            {
+                equal_count++;
+                if (equal_count > 1)
+                {
+                    throw error;
+                }
+
+                key_end = i;
+                value_start = i + 1;
+            }
+        }
+
+        if (equal_count == 0)
+        {
+            throw error;
+        }
+
+        result.first =
+            std::string(overwrite.begin(), overwrite.begin() + key_end);
+        result.second =
+            std::string(overwrite.begin() + value_start, overwrite.end());
+
+        return result;
+    }
 
     std::string create_conf_path() noexcept
     {
@@ -86,6 +142,13 @@ namespace pcat
             .help(CONF_PATH_ARG_HELP)
             .default_value(CONF_NAME);
 
+        program.add_argument(OVERWRITE_ARG, OVERWRITE_ARG_LONG)
+            .required()
+            .metavar(OVERWRITE_ARG_META)
+            .help(OVERWRITE_ARG_HELP)
+            .default_value<std::vector<std::string>>({})
+            .append();
+
         try
         {
             program.parse_args(m_argc, m_argv);
@@ -101,10 +164,37 @@ namespace pcat
         {
             m_conf_path = program.get(CONF_PATH_ARG_LONG);
         }
+
+        std::vector<std::string> overwrites =
+            program.get<std::vector<std::string>>(OVERWRITE_ARG_LONG);
+
+        m_overwrites.reserve(overwrites.size());
+
+        std::unordered_set<std::string> key_set;
+        key_set.reserve(overwrites.size());
+        for (const auto& overwrite : overwrites)
+        {
+            std::pair<std::string, std::string> overwrite_pair =
+                parse_overwrite(overwrite);
+
+            key_set.insert(overwrite_pair.first);
+            m_overwrites.push_back(overwrite_pair);
+        }
+
+        if (key_set.size() < overwrites.size())
+        {
+            throw parse_err("Overwrite list has duplicate keys");
+        }
     }
 
     std::string args::stat_path() const noexcept { return m_stat_path; }
 
     std::string args::conf_path() const noexcept { return m_conf_path; }
+
+    std::vector<std::pair<std::string, std::string>>
+    args::overwrites() const noexcept
+    {
+        return m_overwrites;
+    }
 
 }

@@ -1,6 +1,8 @@
 #pragma once
 
+#include <utility>
 #include <string>
+#include <vector>
 #include <exception>
 
 namespace pcat
@@ -43,7 +45,8 @@ namespace pcat
         static inline const std::string OVERWRITE_ARG_LONG = "--overwrite";
 
         static inline const std::string OVERWRITE_ARG_HELP =
-            "overwrites specified config values";
+            "overwrites specified config values (can be specified several "
+            "times)";
 
         static inline const std::string OVERWRITE_ARG_META = "<key>=<value>";
 
@@ -86,11 +89,19 @@ namespace pcat
          */
         std::string conf_path() const noexcept;
 
+        /**
+         * @brief Tells config overwrites
+         * @return Config overwrites in form of key-value pair list
+         */
+        std::vector<std::pair<std::string, std::string>>
+        overwrites() const noexcept;
+
     private:
         int m_argc;
         char** m_argv;
         std::string m_stat_path;
         std::string m_conf_path;
+        std::vector<std::pair<std::string, std::string>> m_overwrites;
     };
 
 }
