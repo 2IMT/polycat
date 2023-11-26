@@ -13,57 +13,59 @@ namespace pcat
     class conf
     {
     public:
-        static const std::string FRAMES_DEFAULT;
+        static inline const std::string FRAMES_DEFAULT = "";
 
-        static const uint8_t HIGH_RATE_DEFAULT;
+        static inline const uint8_t HIGH_RATE_DEFAULT = 2;
 
-        static const uint8_t LOW_RATE_DEFAULT;
+        static inline const uint8_t LOW_RATE_DEFAULT = 30;
 
-        static const uint64_t POLL_PERIOD_DEFAULT;
+        static inline const uint64_t POLL_PERIOD_DEFAULT = 1000;
 
-        static const bool SMOOTHING_ENABLED_DEFAULT;
+        static inline const bool SMOOTHING_ENABLED_DEFAULT = true;
 
-        static const uint64_t SMOOTHING_VALUE_DEFAULT;
+        static inline const uint64_t SMOOTHING_VALUE_DEFAULT = 2000;
 
-        static const bool SLEEPING_ENABLED_DEFAULT;
+        static inline const bool SLEEPING_ENABLED_DEFAULT = true;
 
-        static const uint64_t SLEEPING_THRESHOLD_DEFAULT;
+        static inline const uint64_t SLEEPING_THRESHOLD_DEFAULT = 8;
 
-        static const uint64_t WAKEUP_THRESHOLD_DEFAULT;
+        static inline const uint64_t WAKEUP_THRESHOLD_DEFAULT = 12;
 
-        static const std::string SLEEPING_FRAMES_DEFAULT;
+        static inline const std::string SLEEPING_FRAMES_DEFAULT = "";
 
-        static const uint64_t SLEEPING_RATE_DEFAULT;
+        static inline const uint64_t SLEEPING_RATE_DEFAULT = 4;
 
-        static const bool FORMAT_ENABLED_DEFAULT;
+        static inline const bool FORMAT_ENABLED_DEFAULT = false;
 
-        static const std::string FORMAT_DEFAULT;
+        static inline const std::string FORMAT_DEFAULT = "$frame $lcpu";
 
-        static const std::string FRAMES_KEY;
+        static inline const std::string FRAMES_KEY = "frames";
 
-        static const std::string HIGH_RATE_KEY;
+        static inline const std::string HIGH_RATE_KEY = "highRate";
 
-        static const std::string LOW_RATE_KEY;
+        static inline const std::string LOW_RATE_KEY = "lowRate";
 
-        static const std::string POLL_PERIOD_KEY;
+        static inline const std::string POLL_PERIOD_KEY = "pollingPeriod";
 
-        static const std::string SMOOTHING_ENABLED_KEY;
+        static inline const std::string SMOOTHING_ENABLED_KEY = "smoothEnabled";
 
-        static const std::string SMOOTHING_VALUE_KEY;
+        static inline const std::string SMOOTHING_VALUE_KEY = "smoothValue";
 
-        static const std::string SLEEPING_ENABLED_KEY;
+        static inline const std::string SLEEPING_ENABLED_KEY = "sleepEnabled";
 
-        static const std::string SLEEPING_THRESHOLD_KEY;
+        static inline const std::string SLEEPING_THRESHOLD_KEY =
+            "sleepThreshold";
 
-        static const std::string WAKEUP_THRESHOLD_KEY;
+        static inline const std::string WAKEUP_THRESHOLD_KEY =
+            "wakeupThreshold";
 
-        static const std::string SLEEPING_FRAMES_KEY;
+        static inline const std::string SLEEPING_FRAMES_KEY = "sleepFrames";
 
-        static const std::string SLEEPING_RATE_KEY;
+        static inline const std::string SLEEPING_RATE_KEY = "sleepRate";
 
-        static const std::string FORMAT_ENABLED_KEY;
+        static inline const std::string FORMAT_ENABLED_KEY = "formatEnabled";
 
-        static const std::string FORMAT_KEY;
+        static inline const std::string FORMAT_KEY = "format";
 
         /**
          * @brief Thrown on IO errors while opening

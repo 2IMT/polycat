@@ -11,58 +11,6 @@
 namespace pcat
 {
 
-    const std::string conf::FRAMES_DEFAULT = "";
-
-    const uint8_t conf::LOW_RATE_DEFAULT = 2;
-
-    const uint8_t conf::HIGH_RATE_DEFAULT = 30;
-
-    const uint64_t conf::POLL_PERIOD_DEFAULT = 1000;
-
-    const bool conf::SMOOTHING_ENABLED_DEFAULT = true;
-
-    const uint64_t conf::SMOOTHING_VALUE_DEFAULT = 2000;
-
-    const bool conf::SLEEPING_ENABLED_DEFAULT = true;
-
-    const uint64_t conf::SLEEPING_THRESHOLD_DEFAULT = 8;
-
-    const uint64_t conf::WAKEUP_THRESHOLD_DEFAULT = 12;
-
-    const std::string conf::SLEEPING_FRAMES_DEFAULT = "";
-
-    const uint64_t conf::SLEEPING_RATE_DEFAULT = 4;
-
-    const bool conf::FORMAT_ENABLED_DEFAULT = false;
-
-    const std::string conf::FORMAT_DEFAULT = "$frame $lcpu";
-
-    const std::string conf::FRAMES_KEY = "frames";
-
-    const std::string conf::HIGH_RATE_KEY = "highRate";
-
-    const std::string conf::LOW_RATE_KEY = "lowRate";
-
-    const std::string conf::POLL_PERIOD_KEY = "pollingPeriod";
-
-    const std::string conf::SMOOTHING_ENABLED_KEY = "smoothEnabled";
-
-    const std::string conf::SMOOTHING_VALUE_KEY = "smoothValue";
-
-    const std::string conf::SLEEPING_ENABLED_KEY = "sleepEnabled";
-
-    const std::string conf::SLEEPING_THRESHOLD_KEY = "sleepThreshold";
-
-    const std::string conf::WAKEUP_THRESHOLD_KEY = "wakeupThreshold";
-
-    const std::string conf::SLEEPING_FRAMES_KEY = "sleepFrames";
-
-    const std::string conf::SLEEPING_RATE_KEY = "sleepRate";
-
-    const std::string conf::FORMAT_ENABLED_KEY = "formatEnabled";
-
-    const std::string conf::FORMAT_KEY = "format";
-
     void create_default_config(const std::string& path)
     {
         std::ofstream ofstream;
