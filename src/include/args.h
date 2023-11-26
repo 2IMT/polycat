@@ -12,29 +12,40 @@ namespace pcat
     class args
     {
     public:
-        static const std::string PROGRAM_NAME;
+        static inline const std::string PROGRAM_NAME = "polycat";
 
-        static const std::string PROGRAM_VERSION;
+        static inline const std::string PROGRAM_VERSION = "1.0.0";
 
-        static const std::string STAT_PATH_ARG;
+        static inline const std::string STAT_PATH_DEFAULT = "/proc/stat";
 
-        static const std::string STAT_PATH_ARG_LONG;
+        static inline const std::string STAT_PATH_ARG = "-s";
 
-        static const std::string STAT_PATH_ARG_HELP;
+        static inline const std::string STAT_PATH_ARG_LONG = "--stat-path";
 
-        static const std::string STAT_PATH_ARG_META;
+        static inline const std::string STAT_PATH_ARG_HELP =
+            "sets the path for stat file used to poll the CPU";
 
-        static const std::string CONF_PATH_ARG;
+        static inline const std::string STAT_PATH_ARG_META = "<path>";
 
-        static const std::string CONF_PATH_ARG_LONG;
+        static inline const std::string CONF_NAME = "polycat-config.json";
 
-        static const std::string CONF_PATH_ARG_HELP;
+        static inline const std::string CONF_PATH_ARG = "-c";
 
-        static const std::string CONF_PATH_ARG_META;
+        static inline const std::string CONF_PATH_ARG_LONG = "--config-path";
 
-        static const std::string STAT_PATH_DEFAULT;
+        static inline const std::string CONF_PATH_ARG_HELP =
+            "sets the path for configuration file";
 
-        static const std::string CONF_NAME;
+        static inline const std::string CONF_PATH_ARG_META = "<path>";
+
+        static inline const std::string OVERWRITE_ARG = "-o";
+
+        static inline const std::string OVERWRITE_ARG_LONG = "--overwrite";
+
+        static inline const std::string OVERWRITE_ARG_HELP =
+            "overwrites specified config values";
+
+        static inline const std::string OVERWRITE_ARG_META = "<key>=<value>";
 
         /**
          * Thrown on parsing errors

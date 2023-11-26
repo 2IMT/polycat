@@ -9,32 +9,6 @@
 namespace pcat
 {
 
-    const std::string args::PROGRAM_NAME = "polycat";
-
-    const std::string args::PROGRAM_VERSION = "1.0.0";
-
-    const std::string args::STAT_PATH_DEFAULT = "/proc/stat";
-
-    const std::string args::STAT_PATH_ARG = "-s";
-
-    const std::string args::STAT_PATH_ARG_LONG = "--stat-path";
-
-    const std::string args::STAT_PATH_ARG_HELP =
-        "sets the path for stat file used to poll the CPU";
-
-    const std::string args::STAT_PATH_ARG_META = "<path>";
-
-    const std::string args::CONF_NAME = "polycat-config.json";
-
-    const std::string args::CONF_PATH_ARG = "-c";
-
-    const std::string args::CONF_PATH_ARG_LONG = "--config-path";
-
-    const std::string args::CONF_PATH_ARG_HELP =
-        "sets the path for configuration file";
-
-    const std::string args::CONF_PATH_ARG_META = "<path>";
-
     std::string create_conf_path() noexcept
     {
         namespace fs = std::filesystem;
