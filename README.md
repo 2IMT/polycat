@@ -38,7 +38,7 @@ $ cp polycat.ttf ~/.local/share/fonts/polycat.ttf
 
 ```ini
 [module/polycat]
-type = custom/polycat
+type = custom/script
 exec = <path-to-polycat-executable>
 tail = true
 ```
