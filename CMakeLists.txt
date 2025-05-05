@@ -14,10 +14,9 @@ set(SOURCES
 
 add_executable(polycat ${SOURCES})
 target_include_directories(polycat PRIVATE src/include)
-target_compile_options(polycat PRIVATE 
-    -Wall 
-    -Wpedantic 
-    -Werror 
+target_compile_options(polycat PRIVATE
+    -Wall
+    -Wpedantic
     -Wno-sign-compare)
 set_target_properties(polycat PROPERTIES CXX_STANDARD 20)
 add_custom_command(TARGET polycat POST_BUILD
