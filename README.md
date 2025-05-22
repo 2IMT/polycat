@@ -81,7 +81,7 @@ If config file doesn't exist, polycat automatically creates a config file with d
   "sleepEnabled": true,
   "sleepThreshold": 8,
   "wakeupThreshold": 12,
-  "sleepFrames": "",
+  "sleepFrames": "",
   "sleepRate": 4,
   "formatEnabled": false,
   "format": "$frame $lcpu"
