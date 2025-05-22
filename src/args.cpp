@@ -1,41 +1,29 @@
 #include "args.h"
 
 #include <filesystem>
-#include <stdexcept>
 #include <cstdlib>
+#include <cstring>
+#include <format>
 
-#include <argparse/argparse.hpp>
+static const char* _adv_args(int& argc, char**& argv)
+{
+    if (argc == 0)
+    {
+        return nullptr;
+    }
+
+    const char* arg = argv[0];
+    argc--;
+    argv++;
+    return arg;
+}
+
+static bool _streq(const char* l, const char* r) { return strcmp(l, r) == 0; }
 
 namespace pcat
 {
 
-    const std::string args::PROGRAM_NAME = "polycat";
-
-    const std::string args::PROGRAM_VERSION = "1.3.0";
-
-    const std::string args::STAT_PATH_DEFAULT = "/proc/stat";
-
-    const std::string args::STAT_PATH_ARG = "-s";
-
-    const std::string args::STAT_PATH_ARG_LONG = "--stat-path";
-
-    const std::string args::STAT_PATH_ARG_HELP =
-        "sets the path for stat file used to poll the CPU";
-
-    const std::string args::STAT_PATH_ARG_META = "<path>";
-
-    const std::string args::CONF_NAME = "polycat-config.json";
-
-    const std::string args::CONF_PATH_ARG = "-c";
-
-    const std::string args::CONF_PATH_ARG_LONG = "--config-path";
-
-    const std::string args::CONF_PATH_ARG_HELP =
-        "sets the path for configuration file";
-
-    const std::string args::CONF_PATH_ARG_META = "<path>";
-
-    std::string create_conf_path() noexcept
+    static std::string _get_conf_path() noexcept
     {
         namespace fs = std::filesystem;
 
@@ -57,25 +45,16 @@ namespace pcat
             home_path += "/";
         }
 
-        std::string conf_dir = home_path + ".config";
+        std::string conf_path = home_path + ".config/" + args::CONF_NAME;
 
-        if (!fs::exists(conf_dir))
+        if (fs::exists(conf_path))
         {
-            try
-            {
-                fs::create_directory(conf_dir);
-            }
-            catch (fs::filesystem_error& e)
-            {
-                return args::CONF_NAME;
-            }
+            return conf_path;
         }
-        else if (!fs::is_directory(conf_dir))
+        else
         {
-            return args::CONF_NAME;
+            return "/usr/share/polycat/" + args::CONF_NAME;
         }
-
-        return conf_dir + "/" + args::CONF_NAME;
     }
 
     args::parse_err::parse_err(const std::string& message) noexcept :
@@ -92,45 +71,60 @@ namespace pcat
         m_argc(argc),
         m_argv(argv),
         m_stat_path(STAT_PATH_DEFAULT),
-        m_conf_path(create_conf_path())
+        m_conf_path(_get_conf_path()),
+        m_help(false),
+        m_version(false)
     {
     }
 
     void args::parse()
     {
-        argparse::ArgumentParser program(PROGRAM_NAME, PROGRAM_VERSION);
+        _adv_args(m_argc, m_argv);
 
-        program.add_argument(STAT_PATH_ARG, STAT_PATH_ARG_LONG)
-            .required()
-            .metavar(STAT_PATH_ARG_META)
-            .help(STAT_PATH_ARG_HELP)
-            .default_value(STAT_PATH_DEFAULT);
-
-        program.add_argument(CONF_PATH_ARG, CONF_PATH_ARG_LONG)
-            .required()
-            .metavar(CONF_PATH_ARG_META)
-            .help(CONF_PATH_ARG_HELP)
-            .default_value(CONF_NAME);
-
-        try
+        const char* arg = nullptr;
+        while ((arg = _adv_args(m_argc, m_argv)) != nullptr)
         {
-            program.parse_args(m_argc, m_argv);
-        }
-        catch (std::runtime_error& e)
-        {
-            throw parse_err(e.what());
-        }
-
-        m_stat_path = program.get(STAT_PATH_ARG_LONG);
-
-        if (program.is_used(CONF_PATH_ARG_LONG))
-        {
-            m_conf_path = program.get(CONF_PATH_ARG_LONG);
+            if (_streq("-h", arg) || _streq("--help", arg))
+            {
+                m_help = true;
+            }
+            else if (_streq("-v", arg) || _streq("--version", arg))
+            {
+                m_version = true;
+            }
+            else if (_streq("-s", arg) || _streq("--stat-path", arg))
+            {
+                const char* value = _adv_args(m_argc, m_argv);
+                if (value == nullptr)
+                {
+                    throw parse_err(std::format(
+                        "Parameter `{}` expected a value, but got none", arg));
+                }
+                m_stat_path = value;
+            }
+            else if (_streq("-c", arg) || _streq("--config-path", arg))
+            {
+                const char* value = _adv_args(m_argc, m_argv);
+                if (value == nullptr)
+                {
+                    throw parse_err(std::format(
+                        "Parameter `{}` expected a value, but got none", arg));
+                }
+                m_conf_path = value;
+            }
+            else
+            {
+                throw parse_err(std::format("Invalid parameter `{}`", arg));
+            }
         }
     }
 
     std::string args::stat_path() const noexcept { return m_stat_path; }
 
     std::string args::conf_path() const noexcept { return m_conf_path; }
+
+    bool args::help() const noexcept { return m_help; };
+
+    bool args::version() const noexcept { return m_version; };
 
 }
