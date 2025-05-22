@@ -54,7 +54,7 @@ modules-right = ... polycat ...
 
 Here you go
 
-![polycat demo animation](res/polycat-demo.gif)
+![polycat demo animation](assets/polycat-demo.gif)
 
 ## Features <a id="features"></a>
 
@@ -128,11 +128,11 @@ format = "$frame $lcpu"
 
 #### Sleeping
 
-![polycat sleeping demo animation](res/polycat-sleeping-demo.gif)
+![polycat sleeping demo animation](assets/polycat-sleeping-demo.gif)
 
 #### Output formatting
 
-![polycat formatting demo animation](res/polycat-formatting-demo.gif)
+![polycat formatting demo animation](assets/polycat-formatting-demo.gif)
 
 format string here: `"$rcpu $frame"`
 
