@@ -90,8 +90,7 @@ int main(int argc, char** argv)
 
         if (rate_poll.fmt_err())
         {
-            std::cout << args.stat_path()
-                      << ": " << rate_poll.fmt_err_what()
+            std::cout << args.stat_path() << ": " << rate_poll.fmt_err_what()
                       << std::endl;
             err = true;
             break;
