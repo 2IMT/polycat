@@ -27,7 +27,7 @@ namespace pcat
 
     cpu::cpu(const std::string& stat_path) noexcept :
         m_stat_path(stat_path),
-        m_state_prev({ 0 })
+        m_state_prev({ 0, 0 })
     {
     }
 
@@ -110,7 +110,7 @@ namespace pcat
             throw fmt_err("Not enough data in stat file.");
         }
 
-        state result = { 0 };
+        state result = { 0, 0 };
         result.total = std::accumulate(jiffies.begin(), jiffies.end(), 0);
         result.work = std::accumulate(jiffies.begin(), jiffies.begin() + 3, 0);
 
