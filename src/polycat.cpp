@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     }
     catch (pcat::args::parse_err& e)
     {
-        std::cout << "Arguments error" << std::endl << e.what() << std::endl;
+        std::cout << "Argument error: " << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -42,8 +42,8 @@ int main(int argc, char** argv)
     }
     catch (std::exception& e)
     {
-        std::cout << "Config error, file " << args.conf_path() << std::endl
-                  << e.what() << std::endl;
+        std::cout << args.conf_path() << ": Config error: " << e.what()
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -55,8 +55,8 @@ int main(int argc, char** argv)
     }
     catch (pcat::formatter::fmt_err& e)
     {
-        std::cout << "Config error, file " << args.conf_path() << std::endl
-                  << e.what() << std::endl;
+        std::cout << args.conf_path() << ": Config error: " << e.what()
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -81,18 +81,18 @@ int main(int argc, char** argv)
 
         if (rate_poll.io_err())
         {
-            std::cout << "CPU polling IO error, file " << args.stat_path()
-                      << std::endl
-                      << rate_poll.io_err_what() << std::endl;
+            std::cout << args.stat_path()
+                      << ": CPU polling error: " << rate_poll.io_err_what()
+                      << std::endl;
             err = true;
             break;
         }
 
         if (rate_poll.fmt_err())
         {
-            std::cout << "CPU polling format error, file " << args.stat_path()
-                      << std::endl
-                      << rate_poll.fmt_err_what() << std::endl;
+            std::cout << args.stat_path()
+                      << ": " << rate_poll.fmt_err_what()
+                      << std::endl;
             err = true;
             break;
         }
