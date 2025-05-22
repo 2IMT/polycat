@@ -31,7 +31,18 @@ int main(int argc, char** argv)
     catch (pcat::args::parse_err& e)
     {
         std::cerr << "Argument error: " << e.what() << std::endl;
+        std::cerr << "Use `polycat --help` to see usage" << std::endl;
         return EXIT_FAILURE;
+    }
+
+    if (args.help()) {
+        std::cout << pcat::args::HELP_TEXT << std::endl;
+        return EXIT_SUCCESS;
+    }
+
+    if (args.version()) {
+        std::cout << "polycat v1.3.0" << std::endl;
+        return EXIT_SUCCESS;
     }
 
     pcat::conf conf(args.conf_path());
