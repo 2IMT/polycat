@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 
     if (args.version())
     {
-        std::cout << "polycat v1.3.0" << std::endl;
+        std::cout << "polycat v" POLYCAT_VERSION << std::endl;
         return EXIT_SUCCESS;
     }
 
