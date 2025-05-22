@@ -158,8 +158,9 @@ namespace pcat
 
     std::vector<parse::err> parse::load(const std::string& path) noexcept
     {
-        std::vector<err> errors;
+        m_values.clear();
 
+        std::vector<err> errors;
         std::ifstream file;
 
         file.open(path);
@@ -170,9 +171,10 @@ namespace pcat
         }
 
         std::string line;
-        loc l(1, 1);
+        loc l(0, 1);
         while (std::getline(file, line))
         {
+            l.l++;
             if (file.fail() || file.bad())
             {
                 errors.push_back(err(std::format("Failed to read `{}`", path)));
@@ -215,7 +217,6 @@ namespace pcat
                     errors.push_back(e);
                 }
             }
-            l.l++;
         }
 
         return errors;
