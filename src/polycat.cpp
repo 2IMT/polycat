@@ -35,12 +35,14 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    if (args.help()) {
+    if (args.help())
+    {
         std::cout << pcat::args::HELP_TEXT << std::endl;
         return EXIT_SUCCESS;
     }
 
-    if (args.version()) {
+    if (args.version())
+    {
         std::cout << "polycat v1.3.0" << std::endl;
         return EXIT_SUCCESS;
     }
