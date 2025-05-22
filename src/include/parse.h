@@ -35,7 +35,7 @@ namespace pcat
              * @brief Construct an instance with specified line and column
              * @param l Line
              * @param c Column
-            */
+             */
             loc(size_t l, size_t c) :
                 l(l),
                 c(c)
@@ -48,12 +48,12 @@ namespace pcat
 
         /**
          * @brief Represents parsing error
-        */
+         */
         class err : public std::exception
         {
         public:
             /**
-            */
+             */
             err(const std::string& message) noexcept;
 
             err(loc l, const std::string& message) noexcept;
@@ -70,6 +70,29 @@ namespace pcat
             std::string m_message;
         };
 
+        class no_key_err : public std::exception
+        {
+        public:
+            no_key_err(const std::string& key) noexcept;
+
+            const char* what() const noexcept override;
+
+        private:
+            std::string m_message;
+        };
+
+        class type_err : public std::exception
+        {
+        public:
+            type_err(const std::string& key, const std::string& expected,
+                const std::string& actual) noexcept;
+
+            const char* what() const noexcept override;
+
+        private:
+            std::string m_message;
+        };
+
         using data_value = std::variant<std::string, int64_t, bool>;
 
         parse() noexcept;
@@ -81,6 +104,10 @@ namespace pcat
         int64_t get_int(const std::string& key) const;
 
         bool get_bool(const std::string& key) const;
+
+        data_value get_value(const std::string& key) const;
+
+        bool has_key(const std::string& key) const;
 
         std::unordered_map<std::string, data_value> values() const;
 

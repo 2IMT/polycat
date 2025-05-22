@@ -6,6 +6,7 @@
 #include <cctype>
 #include <charconv>
 #include <system_error>
+#include <variant>
 
 static size_t _ltrim(std::string& s)
 {
@@ -59,7 +60,8 @@ static pcat::parse::data_value _parse_value(
         }
         else
         {
-            throw pcat::parse::err(start_loc, "Last string character is not `\"`");
+            throw pcat::parse::err(
+                start_loc, "Last string character is not `\"`");
         }
     }
     else if (s == "true")
@@ -125,6 +127,29 @@ namespace pcat
     parse::loc parse::err::get_loc() const noexcept { return m_loc; }
 
     const char* parse::err::what() const noexcept { return m_message.c_str(); }
+
+    parse::no_key_err::no_key_err(const std::string& key) noexcept :
+        m_message(std::format("No key `{}` found", key))
+    {
+    }
+
+    const char* parse::no_key_err::what() const noexcept
+    {
+        return m_message.c_str();
+    }
+
+    parse::type_err::type_err(const std::string& key,
+        const std::string& expected, const std::string& actual) noexcept :
+        m_message(std::format(
+            "Key `{}` is expected to be of type {}, but the actual type is {}",
+            key, expected, actual))
+    {
+    }
+
+    const char* parse::type_err::what() const noexcept
+    {
+        return m_message.c_str();
+    }
 
     parse::parse() noexcept :
         m_values()
@@ -196,11 +221,82 @@ namespace pcat
         return errors;
     }
 
-    std::string parse::get_string(const std::string& key) const { return ""; }
+    std::string parse::get_string(const std::string& key) const
+    {
+        data_value value = get_value(key);
+        if (std::holds_alternative<std::string>(value))
+        {
+            return std::get<std::string>(value);
+        }
+        else if (std::holds_alternative<int64_t>(value))
+        {
+            throw type_err(key, "string", "integer");
+        }
+        else if (std::holds_alternative<bool>(value))
+        {
+            throw type_err(key, "string", "boolean");
+        }
+        else
+        {
+            return "";
+        }
+    }
 
-    int64_t parse::get_int(const std::string& key) const { return 0; }
+    int64_t parse::get_int(const std::string& key) const
+    {
+        data_value value = get_value(key);
+        if (std::holds_alternative<std::string>(value))
+        {
+            throw type_err(key, "integer", "string");
+        }
+        else if (std::holds_alternative<int64_t>(value))
+        {
+            return std::get<int64_t>(value);
+        }
+        else if (std::holds_alternative<bool>(value))
+        {
+            throw type_err(key, "integer", "boolean");
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
-    bool parse::get_bool(const std::string& key) const { return false; }
+    bool parse::get_bool(const std::string& key) const
+    {
+        data_value value = get_value(key);
+        if (std::holds_alternative<std::string>(value))
+        {
+            throw type_err(key, "boolean", "string");
+        }
+        else if (std::holds_alternative<int64_t>(value))
+        {
+            throw type_err(key, "boolean", "integer");
+        }
+        else if (std::holds_alternative<bool>(value))
+        {
+            return std::get<bool>(value);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    parse::data_value parse::get_value(const std::string& key) const
+    {
+        if (!has_key(key))
+        {
+            throw no_key_err(key);
+        }
+        return m_values.at(key);
+    }
+
+    bool parse::has_key(const std::string& key) const
+    {
+        return m_values.contains(key);
+    }
 
     std::unordered_map<std::string, parse::data_value> parse::values() const
     {
