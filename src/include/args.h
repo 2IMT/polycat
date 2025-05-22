@@ -25,7 +25,7 @@ Optional arguments:
     -s, --stat-path <path>    sets the path for stat file used to poll the CPU
         default: "/proc/stat"
     -c, --config-path <path>  sets the path for configuration file
-        default: "$HOME/.config/polycat-config.json" if exists, "/usr/share/polycat/polycat-config.json" otherwise)";
+        default: "$HOME/.config/polycat-config" if exists, "/usr/share/polycat/polycat-config" otherwise)";
 
         /**
          * Thrown on parsing errors
