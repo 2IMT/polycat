@@ -1,8 +1,6 @@
 #pragma once
 
 #include <string>
-#include <locale>
-#include <codecvt>
 #include <cstdint>
 
 namespace pcat
@@ -23,7 +21,6 @@ namespace pcat
         std::string get() noexcept;
 
     private:
-        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> m_cvt;
         uint64_t m_curr;
         std::u32string m_frames;
         uint64_t m_count;
