@@ -10,6 +10,7 @@ set(SOURCES
     src/smoother.cpp
     src/formatter.cpp
     src/rate_poll.cpp
+    src/parse.cpp
 )
 
 add_executable(polycat ${SOURCES})
@@ -26,6 +27,4 @@ add_custom_command(TARGET polycat POST_BUILD
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(dep/nlohmann-json)
 
-add_subdirectory(dep/argparse)
-
-target_link_libraries(polycat PRIVATE nlohmann_json::nlohmann_json argparse)
+target_link_libraries(polycat PRIVATE nlohmann_json::nlohmann_json)
