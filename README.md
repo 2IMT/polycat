@@ -95,25 +95,25 @@ format = "$frame $lcpu"
 
 - `frames` (non-empty string)
   sets the frames to loop through.
-- `high_rate` (number [1-255] inclusive)
+- `high_rate` (integer [1-255] inclusive)
   sets the FPS maximum.
-- `low_rate` (number [1-255] inclusive)
+- `low_rate` (integer [1-255] inclusive)
   sets the FPS minimum.
-- `poll_period` (number >1)
+- `poll_period` (integer >1)
   sets the period of polling the CPU (stat file).
 - `smoothing_enabled` (boolean)
   enables smooth transition between CPU load values.
-- `smoothing_value` (num [1-10000] inclusive)
+- `smoothing_value` (integer [1-10000] inclusive)
   number of milliseconds required to transition from 0% to 100%.
 - `sleeping_enabled` (boolean)
   enables sleeping.
-- `sleeping_threshold` (number [1-100] inclusive)
+- `sleeping_threshold` (integer [1-100] inclusive)
   sets the maximum CPU load needed to transition from active mode to sleeping mode.
-- `wakeup_threshold` (number [1-100] inclusive, >sleeping_threshold)
+- `wakeup_threshold` (integer [1-100] inclusive, >sleeping_threshold)
   sets the minimum CPU load value needed to transition from sleeping mode to active mode
 - `sleeping_frames` (non-empty string)
   sets the frames to loop through in sleeping mode.
-- `sleeping_rate` (number [1-255] inclusive)
+- `sleeping_rate` (integer [1-255] inclusive)
   sets the FPS for sleeping animation.
 - `format_enabled` (boolean)
   enables output formatting.
