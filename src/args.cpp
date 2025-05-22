@@ -53,7 +53,7 @@ namespace pcat
         }
         else
         {
-            return "/usr/share/polycat/" + args::CONF_NAME;
+            return POLYCAT_PREFIX "/share/polycat/" + args::CONF_NAME;
         }
     }
 

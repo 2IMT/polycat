@@ -12,7 +12,6 @@ runcat module for polybar (or waybar)
 - [Features](#features)
   - [Configuration](#features-configuration)
   - [Command-line arguments](#features-arguments)
-- [Building](#building)
 
 ## Installation <a id="installation"></a>
 
@@ -20,21 +19,18 @@ runcat module for polybar (or waybar)
 
 Arch-Based users can directly install the
 [AUR package](https://aur.archlinux.org/packages/polycat)
-and follow 3-4 installation steps in
+and follow 2-3 installation steps in
 [Other Distributions](#installation-other) section.
 
 ### Other Distributions <a id="installation-other"></a>
 
-1. Build polycat (see [Building](#building))
-
-2. Install the font
+1. Install polycat
 
 ```bash
-cd <cloned-polycat-repo>/res
-cp polycat.ttf ~/.local/share/fonts/polycat.ttf
+sudo make clean install
 ```
 
-3. Add polycat module to your polybar config:
+2. Add polycat module to your polybar config:
 
 ```ini
 [module/polycat]
@@ -43,7 +39,7 @@ exec = <path-to-polycat-executable>
 tail = true
 ```
 
-4. Place the module and add the font
+3. Place the module and add the font
 
 ```ini
 [bar/your-bar]
@@ -66,16 +62,25 @@ Here you go
 
 Polycat is configured with file placed in `$HOME/.config/polycat-config` (config path is specified using [command-line arguments](#features-arguments)).
 
-If the config file doesn't exist, polycat uses the default one located at `/usr/share/polycat/polycat-config`.
+If the config file doesn't exist, polycat uses the default one located at `/usr/local/share/polycat/polycat-config`.
 
-To create default config:
+The default configuration path can be different depending on install prefix used.
+
+To create default config for manual installation:
+
+```bash
+mkdir -p $HOME/.config/
+cp /usr/local/share/polycat/polycat-config $HOME/.config/polycat-config
+```
+
+To create default config for package manager installation:
 
 ```bash
 mkdir -p $HOME/.config/
 cp /usr/share/polycat/polycat-config $HOME/.config/polycat-config
 ```
 
-#### Default configuration values
+#### Default config
 
 ```ini
 frames = ""
@@ -146,13 +151,3 @@ Command-line arguments allow you to set the location of configuration file as we
 ```
 
 In this example, the config file path would be **~/config-files/config** and stat path would be **/proc/stat**
-
-## Building <a id="building"></a>
-
-```bash
-git clone https://github.com/2IMT/polycat.git
-cd polycat
-cmake -DCMAKE_BUILD_TYPE=RELEASE .
-cmake --build .
-./polycat # Run polycat
-```
