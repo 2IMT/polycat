@@ -23,8 +23,3 @@ set_target_properties(polycat PROPERTIES CXX_STANDARD 20)
 add_custom_command(TARGET polycat POST_BUILD
     COMMAND $<$<CONFIG:release>:${CMAKE_STRIP}>
     ARGS $<TARGET_FILE:polycat>)
-
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-add_subdirectory(dep/nlohmann-json)
-
-target_link_libraries(polycat PRIVATE nlohmann_json::nlohmann_json)
