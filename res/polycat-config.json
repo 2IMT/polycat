@@ -8,7 +8,7 @@
     "sleepEnabled": true,
     "sleepThreshold": 8,
     "wakeupThreshold": 12,
-    "sleepFrames": "",
+    "sleepFrames": "",
     "sleepRate": 4,
     "formatEnabled": false,
     "format": "$frame $lcpu"
