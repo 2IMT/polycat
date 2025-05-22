@@ -3,6 +3,9 @@
 #include <string>
 #include <cstdint>
 #include <exception>
+#include <vector>
+
+#include "parse.h"
 
 namespace pcat
 {
@@ -13,100 +16,6 @@ namespace pcat
     class conf
     {
     public:
-        static const std::string FRAMES_DEFAULT;
-
-        static const uint8_t HIGH_RATE_DEFAULT;
-
-        static const uint8_t LOW_RATE_DEFAULT;
-
-        static const uint64_t POLL_PERIOD_DEFAULT;
-
-        static const bool SMOOTHING_ENABLED_DEFAULT;
-
-        static const uint64_t SMOOTHING_VALUE_DEFAULT;
-
-        static const bool SLEEPING_ENABLED_DEFAULT;
-
-        static const uint64_t SLEEPING_THRESHOLD_DEFAULT;
-
-        static const uint64_t WAKEUP_THRESHOLD_DEFAULT;
-
-        static const std::string SLEEPING_FRAMES_DEFAULT;
-
-        static const uint64_t SLEEPING_RATE_DEFAULT;
-
-        static const bool FORMAT_ENABLED_DEFAULT;
-
-        static const std::string FORMAT_DEFAULT;
-
-        static const std::string FRAMES_KEY;
-
-        static const std::string HIGH_RATE_KEY;
-
-        static const std::string LOW_RATE_KEY;
-
-        static const std::string POLL_PERIOD_KEY;
-
-        static const std::string SMOOTHING_ENABLED_KEY;
-
-        static const std::string SMOOTHING_VALUE_KEY;
-
-        static const std::string SLEEPING_ENABLED_KEY;
-
-        static const std::string SLEEPING_THRESHOLD_KEY;
-
-        static const std::string WAKEUP_THRESHOLD_KEY;
-
-        static const std::string SLEEPING_FRAMES_KEY;
-
-        static const std::string SLEEPING_RATE_KEY;
-
-        static const std::string FORMAT_ENABLED_KEY;
-
-        static const std::string FORMAT_KEY;
-
-        /**
-         * @brief Thrown on IO errors while opening
-         */
-        class open_err : public std::exception
-        {
-        public:
-            open_err(const std::string& message) noexcept;
-
-            const char* what() const noexcept;
-
-        private:
-            std::string m_message;
-        };
-
-        /**
-         * @brief Thrown on IO errors while reading
-         */
-        class read_err : public std::exception
-        {
-        public:
-            read_err(const std::string& message) noexcept;
-
-            const char* what() const noexcept;
-
-        private:
-            std::string m_message;
-        };
-
-        /**
-         * @brief Thrown on JSON parsing errors
-         */
-        class parse_err : public std::exception
-        {
-        public:
-            parse_err(const std::string& message) noexcept;
-
-            const char* what() const noexcept;
-
-        private:
-            std::string m_message;
-        };
-
         /**
          * @brief Thrown on type errors
          */
@@ -122,6 +31,24 @@ namespace pcat
         };
 
         /**
+         * @brief Error collection
+         */
+        class load_errs
+        {
+        public:
+            /**
+             * @brief Indicates whether config has at least one error
+             * @return true - if has, false - otherwise
+             */
+            bool any() const;
+
+            std::vector<parse::err> parse_errs;
+            std::vector<parse::type_err> type_errs;
+            std::vector<parse::no_key_err> no_key_errs;
+            std::vector<fmt_err> fmt_errs;
+        };
+
+        /**
          * @brief Constructs an instance with associated config path
          * @param config_path Path to config file
          */
@@ -129,8 +56,9 @@ namespace pcat
 
         /**
          * @brief Loads and parses the config file
+         * @return Loading errors
          */
-        void load();
+        load_errs load();
 
         /**
          * @brief Returns the FRAMES_KEY value from config
