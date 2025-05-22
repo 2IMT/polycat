@@ -29,7 +29,7 @@ namespace pcat
 
     const uint64_t conf::WAKEUP_THRESHOLD_DEFAULT = 12;
 
-    const std::string conf::SLEEPING_FRAMES_DEFAULT = "";
+    const std::string conf::SLEEPING_FRAMES_DEFAULT = "";
 
     const uint64_t conf::SLEEPING_RATE_DEFAULT = 4;
 
