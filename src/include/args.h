@@ -16,8 +16,8 @@ namespace pcat
 
         static inline const std::string STAT_PATH_DEFAULT = "/proc/stat";
 
-        static inline const std::string HELP_TEXT = R"(
-Usage: polycat [--help] [--version] --stat-path <path> --config-path <path>
+        static inline const std::string HELP_TEXT =
+            R"(Usage: polycat [--help] [--version] --stat-path <path> --config-path <path>
 
 Optional arguments:
     -h, --help                shows help message and exits
@@ -25,8 +25,7 @@ Optional arguments:
     -s, --stat-path <path>    sets the path for stat file used to poll the CPU
         default: "/proc/stat"
     -c, --config-path <path>  sets the path for configuration file
-        default: "$HOME/.config/polycat-config.json" if exists, "/usr/share/polycat/polycat-config.json" otherwise
-)";
+        default: "$HOME/.config/polycat-config.json" if exists, "/usr/share/polycat/polycat-config.json" otherwise)";
 
         /**
          * Thrown on parsing errors
