@@ -12,7 +12,7 @@ namespace pcat
     class args
     {
     public:
-        static inline const std::string CONF_NAME = "polycat-config.json";
+        static inline const std::string CONF_NAME = "polycat-config";
 
         static inline const std::string STAT_PATH_DEFAULT = "/proc/stat";
 
