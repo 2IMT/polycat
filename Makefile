@@ -13,7 +13,8 @@ CXXFLAGS := -std=c++20 -Wall -Wextra -Wpedantic -MMD -MP \
 SRC_DIR := src
 BUILD_DIR := build
 DIST_DIR := dist
-DIST := $(DIST_DIR)/polycat-$(POLYCAT_VERSION)
+DIST_NAME := polycat-$(POLYCAT_VERSION)
+DIST := $(DIST_DIR)/$(DIST_NAME)
 
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
@@ -48,7 +49,7 @@ clean:
 dist:
 	mkdir -p $(DIST)
 	cp -r LICENSE README.md Makefile src res $(DIST)
-	tar -cf $(DIST).tar $(DIST)
+	tar -cf $(DIST).tar -C $(DIST_DIR) $(DIST_NAME)
 	gzip $(DIST).tar
 	rm -rf $(DIST)
 
