@@ -12,29 +12,20 @@ namespace pcat
     class args
     {
     public:
-        static const std::string PROGRAM_NAME;
+        static inline const std::string CONF_NAME = "polycat-config.json";
 
-        static const std::string PROGRAM_VERSION;
+        static inline const std::string STAT_PATH_DEFAULT = "/proc/stat";
 
-        static const std::string STAT_PATH_ARG;
+        static inline const std::string HELP_TEXT =
+            R"(Usage: polycat [--help] [--version] --stat-path <path> --config-path <path>
 
-        static const std::string STAT_PATH_ARG_LONG;
-
-        static const std::string STAT_PATH_ARG_HELP;
-
-        static const std::string STAT_PATH_ARG_META;
-
-        static const std::string CONF_PATH_ARG;
-
-        static const std::string CONF_PATH_ARG_LONG;
-
-        static const std::string CONF_PATH_ARG_HELP;
-
-        static const std::string CONF_PATH_ARG_META;
-
-        static const std::string STAT_PATH_DEFAULT;
-
-        static const std::string CONF_NAME;
+Optional arguments:
+    -h, --help                shows help message and exits
+    -v, --version             prints version information and exits
+    -s, --stat-path <path>    sets the path for stat file used to poll the CPU
+        default: "/proc/stat"
+    -c, --config-path <path>  sets the path for configuration file
+        default: "$HOME/.config/polycat-config.json" if exists, "/usr/share/polycat/polycat-config.json" otherwise)";
 
         /**
          * Thrown on parsing errors
@@ -75,11 +66,25 @@ namespace pcat
          */
         std::string conf_path() const noexcept;
 
+        /**
+         * @brief Tells if help was requested
+         * @return true - if help was requested, false - otherwise
+         */
+        bool help() const noexcept;
+
+        /**
+         * @brief Tells if version was requested
+         * @return true - if version was requested, false - otherwise
+         */
+        bool version() const noexcept;
+
     private:
         int m_argc;
         char** m_argv;
         std::string m_stat_path;
         std::string m_conf_path;
+        bool m_help;
+        bool m_version;
     };
 
 }

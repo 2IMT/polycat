@@ -30,8 +30,21 @@ int main(int argc, char** argv)
     }
     catch (pcat::args::parse_err& e)
     {
-        std::cout << "Arguments error" << std::endl << e.what() << std::endl;
+        std::cerr << "Argument error: " << e.what() << std::endl;
+        std::cerr << "Use `polycat --help` to see usage" << std::endl;
         return EXIT_FAILURE;
+    }
+
+    if (args.help())
+    {
+        std::cout << pcat::args::HELP_TEXT << std::endl;
+        return EXIT_SUCCESS;
+    }
+
+    if (args.version())
+    {
+        std::cout << "polycat v1.3.0" << std::endl;
+        return EXIT_SUCCESS;
     }
 
     pcat::conf conf(args.conf_path());
@@ -42,8 +55,8 @@ int main(int argc, char** argv)
     }
     catch (std::exception& e)
     {
-        std::cout << "Config error, file " << args.conf_path() << std::endl
-                  << e.what() << std::endl;
+        std::cerr << args.conf_path() << ": Config error: " << e.what()
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -55,8 +68,8 @@ int main(int argc, char** argv)
     }
     catch (pcat::formatter::fmt_err& e)
     {
-        std::cout << "Config error, file " << args.conf_path() << std::endl
-                  << e.what() << std::endl;
+        std::cerr << args.conf_path() << ": Config error: " << e.what()
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -81,18 +94,17 @@ int main(int argc, char** argv)
 
         if (rate_poll.io_err())
         {
-            std::cout << "CPU polling IO error, file " << args.stat_path()
-                      << std::endl
-                      << rate_poll.io_err_what() << std::endl;
+            std::cerr << args.stat_path()
+                      << ": CPU polling error: " << rate_poll.io_err_what()
+                      << std::endl;
             err = true;
             break;
         }
 
         if (rate_poll.fmt_err())
         {
-            std::cout << "CPU polling format error, file " << args.stat_path()
-                      << std::endl
-                      << rate_poll.fmt_err_what() << std::endl;
+            std::cerr << args.stat_path() << ": " << rate_poll.fmt_err_what()
+                      << std::endl;
             err = true;
             break;
         }
