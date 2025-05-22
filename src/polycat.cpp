@@ -1,5 +1,4 @@
 #include <functional>
-#include <exception>
 #include <iostream>
 #include <cstdlib>
 #include <cstdint>
@@ -15,6 +14,7 @@
 #include "smoother.h"
 #include "formatter.h"
 #include "rate_poll.h"
+#include "parse.h"
 
 uint64_t get_period(uint64_t low_rate, uint64_t high_rate, float cpu_load);
 
@@ -49,14 +49,36 @@ int main(int argc, char** argv)
 
     pcat::conf conf(args.conf_path());
 
-    try
+    pcat::conf::load_errs conf_load_errs = conf.load();
+
+    if (conf_load_errs.any())
     {
-        conf.load();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << args.conf_path() << ": Config error: " << e.what()
-                  << std::endl;
+        std::cerr << "Config error: File loaded unsuccessfully" << std::endl;
+        for (const pcat::parse::err& e : conf_load_errs.parse_errs)
+        {
+            std::cerr << args.conf_path() << ":";
+            if (e.has_loc())
+            {
+                std::cerr << e.get_loc().l << ":" << e.get_loc().c << ":";
+            }
+            std::cerr << " Parse error: " << e.what() << std::endl;
+        }
+        for (const pcat::parse::no_key_err& e : conf_load_errs.no_key_errs)
+        {
+            std::cerr << args.conf_path() << ": ";
+            std::cerr << e.what() << std::endl;
+        }
+        for (const pcat::parse::type_err& e : conf_load_errs.type_errs)
+        {
+            std::cerr << args.conf_path() << ": ";
+            std::cerr << "Type error: " << e.what() << std::endl;
+        }
+        for (const pcat::conf::fmt_err& e : conf_load_errs.fmt_errs)
+        {
+            std::cerr << args.conf_path() << ": ";
+            std::cerr << "Format error: " << e.what() << std::endl;
+        }
+
         return EXIT_FAILURE;
     }
 
@@ -68,7 +90,7 @@ int main(int argc, char** argv)
     }
     catch (pcat::formatter::fmt_err& e)
     {
-        std::cerr << args.conf_path() << ": Config error: " << e.what()
+        std::cerr << args.conf_path() << ": Format error: " << e.what()
                   << std::endl;
         return EXIT_FAILURE;
     }

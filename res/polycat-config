@@ -1,0 +1,13 @@
+frames = ""
+high_rate = 30
+low_rate = 2
+poll_period = 1000
+smoothing_enabled = true
+smoothing_value = 2000
+sleeping_enabled = true
+sleeping_threshold = 8
+wakeup_threshold = 12
+sleeping_frames = ""
+sleeping_rate = 4
+format_enabled = false
+format = "$frame $lcpu"
